@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:;">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/x-icon" href="assets/logos/bitcoin.png">
+  <title>Bitcoin Ecosystem Map</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      overflow: hidden;
+    }
+    
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    
+    svg {
+      width: 100%;
+      height: 100%;
+      background-color: #f8f9fa;
+    }
+    
+    .node {
+      cursor: pointer;
+      pointer-events: all;
+    }
+    
+    /* Style for anchor elements */
+    svg a {
+      cursor: pointer;
+    }
+    
+    .node circle {
+      fill: #fff;
+      stroke: #f7931a;
+      stroke-width: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    .node:hover circle {
+      stroke-width: 3px;
+      filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.2));
+    }
+    
+    .node text {
+      font-size: 11px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      fill: #333;
+    }
+    
+    .category-node text {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .central-node text {
+      font-size: 18px;
+      font-weight: 700;
+      fill: #fff;
+    }
+    
+    .link {
+      fill: none;
+      stroke: #e0e0e0;
+      stroke-width: 1.5px;
+      transition: stroke 0.3s ease;
+      opacity: 0.7; /* Make links slightly transparent */
+    }
+    
+    /* Styling for highlighted links */
+    .link.highlighted {
+      stroke: #f7931a; /* Bitcoin orange */
+      stroke-width: 2.5px;
+      opacity: 1;
+    }
+    
+    /* Styling for highlighted nodes */
+    .node.highlighted circle {
+      stroke-width: 3px;
+      filter: drop-shadow(0px 0px 6px rgba(247, 147, 26, 0.5));
+    }
+    
+    .controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+    
+    .control-button {
+      background: white;
+      border: none;
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+      font-size: 16px;
+      color: #555;
+    }
+    
+    .control-button:hover {
+      background: #f9f9f9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    
+    .search-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 250px;
+      z-index: 10;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 14px;
+    }
+    
+    .legend {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+    
+    .legend-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    
+    .tooltip {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 14px;
+      max-width: 200px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 20;
+    }
+    
+    .node-label {
+      font-size: 12px;
+      overflow: visible;
+      pointer-events: none;
+    }
+    
+    .node-logo-placeholder {
+      fill: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Node color scheme */
+    .depth-0 circle {
+      fill: #f7931a;
+      stroke: #fff;
+    }
+    
+    .depth-1 circle {
+      fill: #fff;
+      stroke: #f7931a;
+      stroke-width: 3px;
+    }
+    
+    .depth-2 circle {
+      fill: #f4f4f4; /* Lighter gray similar to Monero ecosystem */
+      stroke: #555;  /* Darker border similar to Monero ecosystem */
+      stroke-width: 1.5px;
+    }
+    
+    .depth-3 circle {
+      fill: #fff;
+      stroke: #f7931a;
+      stroke-width: 1.5px;
+    }
+    
+    /* Text styles for node labels */
+    .node-inner-text {
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+    }
+    
+    /* Text styles for external labels (below nodes) */
+    .node-external-text {
+      text-anchor: middle;
+      pointer-events: none;
+      font-size: 10px;
+      fill: #333;
+    }
+    
+    .depth-0 .node-inner-text {
+      fill: #fff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .depth-1 .node-inner-text {
+      fill: #333;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .depth-2 .node-external-text {
+      font-weight: 500;
+      font-size: 11px;
+    }
+    
+    .depth-3 .node-external-text {
+      font-weight: normal;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search the Bitcoin ecosystem...">
+    </div>
+    
+    <div class="controls">
+      <button class="control-button" id="zoom-in">+</button>
+      <button class="control-button" id="zoom-out">−</button>
+      <button class="control-button" id="reset">⟳</button>
+    </div>
+    
+    <div class="legend">
+      <div class="legend-title">Bitcoin Ecosystem</div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #f7931a;"></div>
+        <span>Bitcoin Core</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #fff; border: 3px solid #f7931a;"></div>
+        <span>Main Categories</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #f4f4f4; border: 1.5px solid #555;"></div>
+        <span>Subcategories</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #fff; border: 1.5px solid #f7931a;"></div>
+        <span>Projects & Services</span>
+      </div>
+    </div>
+    
+    <div class="tooltip"></div>
+    
+    <svg id="bitcoin-ecosystem"></svg>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  <script>
+// Data structure for Bitcoin ecosystem
+const bitcoinEcosystem = {
+  id: "bitcoin",
+  name: "Bitcoin",
+  link: "https://bitcoin.org",
+  children: [
+    {
+      id: "wallets",
+      name: "Wallets",
+      link: "https://bitcoin.org/en/choose-your-wallet",
+      children: [
+        { 
+          id: "hardware", 
+          name: "Hardware",
+          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          children: [
+            { id: "trezor", name: "Trezor", link: "https://trezor.io" },
+            { id: "bitbox", name: "BitBox", link: "https://shiftcrypto.ch" },
+            { id: "coldcard", name: "ColdCard", link: "https://coldcard.com" },
+            { id: "ledger", name: "Ledger", link: "https://www.ledger.com" }
+          ]
+        },
+        { 
+          id: "software", 
+          name: "Software",
+          link: "https://en.bitcoin.it/wiki/Software_wallet",
+          children: [
+            { id: "electrum", name: "Electrum", link: "https://electrum.org" },
+            { id: "bitcoin-core", name: "Bitcoin Core", link: "https://bitcoincore.org" },
+            { id: "sparrow", name: "Sparrow", link: "https://sparrowwallet.com" },
+            { id: "wasabi", name: "Wasabi", link: "https://wasabiwallet.io" },
+          ]
+        }
+      ]
+    },
+    {
+      id: "bitcoin-kaufen",
+      name: "Bitcoin kaufen",
+      link: "https://en.bitcoin.it/wiki/Buying_Bitcoin",
+      children: [
+        { 
+          id: "borsen", 
+          name: "Börsen",
+          link: "https://en.bitcoin.it/wiki/Exchanges",
+          children: [
+            { id: "coinbase", name: "Coinbase", link: "https://www.coinbase.com" },
+            { id: "kraken", name: "Kraken", link: "https://www.kraken.com" },
+            { id: "binance", name: "Binance", link: "https://www.binance.com" },
+            { id: "bison", name: "Bison", link: "https://bisonapp.com/" }
+          ]
+        },
+        { 
+          id: "direkt-auf-die-wallet", 
+          name: "Direkt auf die Wallet",
+          link: "#",
+          children: [
+            { id: "coinfinity", name: "Coinfinity", link: "https://coinfinity.co" },
+            { id: "relai", name: "Relai", link: "https://relai.app" },
+            { id: "21bitcoin", name: "21Bitcoin", link: "https://21bitcoin.app" },
+            { id: "pocket", name: "Pocket", link: "https://pocketbitcoin.com" }
+          ]
+        },
+        { 
+          id: "p2p", 
+          name: "P2P",
+          link: "https://en.bitcoin.it/wiki/P2P_Trading_Platforms",
+          children: [
+            { id: "hodlhodl", name: "HodlHodl", link: "https://hodlhodl.com" },
+            { id: "peachbitcoin", name: "PeachBitcoin", link: "https://peachbitcoin.com" },
+            { id: "bisq", name: "Bisq", link: "https://bisq.network" },
+            { id: "haveno", name: "Haveno", link: "https://haveno.exchange" },
+            { id: "bitcoinde", name: "Bitcoin.de", link: "https://www.bitcoin.de/de" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "markt-data",
+      name: "Daten",
+      link: "https://bitcoin.org/en/choose-your-wallet",
+      children: [
+        { 
+          id: "preisdaten", 
+          name: "Preisdaten",
+          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          children: [
+            { id: "coinmarketcap", name: "CoinMarketCap", link: "https://coinmarketcap.com" },
+            { id: "coingecko", name: "Coingecko", link: "https://coingecko.com" },
+          ]
+        },
+        { 
+          id: "blockchain-analyse", 
+          name: "Blockchain Analyse",
+          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          children: [
+            { id: "bitinfocharts", name: "BitInfoCharts", link: "https://bitinfocharts.com/bitcoin/" },
+            { id: "mempool-space", name: "mempool.space", link: "https://mempool.space" },
+            { id: "bitnodes", name: "Bitnodes", link: "https://bitnodes.io/" },
+            { id: "glassnode", name: "Glassnode", link: "https://studio.glassnode.com/dashboards/btc-core-on-chain" },
+          ]
+        }
+      ]
+    },
+    {
+      id: "hardware",
+      name: "Hardware",
+      link: "https://bitcoin.org/en/choose-your-wallet",
+      children: [
+        { 
+          id: "mining", 
+          name: "Mining",
+          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          children: [
+            { id: "bitaxe", name: "Bitaxe", link: "https://trezor.io" },
+          ]
+        },
+        {
+          id: "nodes", 
+          name: "Nodes",
+          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          children: [
+            { id: "umbrel", name: "Umbrel", link: "https://umbrel.com/" },
+            { id: "raspiblitz", name: "Raspiblitz", link: "https://github.com/raspiblitz/raspiblitz" },
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// Main visualization 
+const svg = d3.select("#bitcoin-ecosystem");
+const width = window.innerWidth;
+const height = window.innerHeight;
+const g = svg.append("g");
+const defs = svg.append("defs");
+
+// Add CSS styles for node shapes
+const style = document.createElement('style');
+style.textContent = `
+  .depth-0 circle {
+    fill: #f7931a;
+    stroke: #fff;
+    stroke-width: 2px;
+  }
+  
+  .depth-1 rect, .depth-2 rect {
+    fill: #fff;
+    stroke: #f7931a;
+    stroke-width: 2px;
+    rx: 4px;
+    ry: 4px;
+  }
+  
+  .depth-1 rect {
+    stroke-width: 3px;
+  }
+  
+  .depth-2 rect {
+    fill: #f4f4f4;
+    stroke: #555;
+  }
+  
+  .depth-3 circle {
+    fill: #fff;
+    stroke: #f7931a;
+    stroke-width: 1.5px;
+  }
+  
+  .node-inner-text {
+    text-anchor: middle;
+    dominant-baseline: middle;
+    pointer-events: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .depth-0 .node-inner-text {
+    fill: #fff;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .depth-1 .node-inner-text, .depth-2 .node-inner-text {
+    fill: #333;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  
+  .depth-3 .node-inner-text {
+    fill: #333;
+    font-weight: 500;
+    font-size: 11px;
+  }
+  
+  .node {
+    cursor: pointer;
+  }
+  
+  .node.highlighted circle, .node.highlighted rect {
+    filter: drop-shadow(0px 0px 6px rgba(247, 147, 26, 0.5));
+  }
+  
+  .link.highlighted {
+    stroke: #f7931a !important;
+    stroke-width: 2.5px !important;
+    opacity: 1 !important;
+  }
+`;
+document.head.appendChild(style);
+
+// Zoom behavior
+const zoom = d3.zoom()
+  .scaleExtent([0.1, 3])
+  .on("zoom", (event) => {
+    g.attr("transform", event.transform);
+  });
+
+svg.call(zoom);
+
+// Improved initial view setup with responsive scaling
+const initialScale = Math.min(width, height) / 1800;
+svg.call(
+  zoom.transform, 
+  d3.zoomIdentity
+    .translate(width / 2, height / 2)
+    .scale(initialScale * 1.5)
+);
+
+// Improved force simulation with better parameters
+const simulation = d3.forceSimulation()
+  .force("link", d3.forceLink().id(d => d.id).distance(d => {
+    return d.source.depth === 0 ? 280 :
+           d.source.depth === 1 ? 180 :
+           d.source.depth === 2 ? 140 : 120;
+  }))
+  .force("charge", d3.forceManyBody().strength(d => {
+    return d.depth === 0 ? -7000 :
+           d.depth === 1 ? -4000 :
+           d.depth === 2 ? -2000 : -1000;
+  }))
+  .force("center", d3.forceCenter(width / 2, height / 2))
+  .force("collide", d3.forceCollide(d => {
+    return d.depth === 0 ? 150 :
+           d.depth === 1 ? 120 :
+           d.depth === 2 ? 90 : 50;
+  }).strength(1))
+  .force("x", d3.forceX(width / 2).strength(0.005))
+  .force("y", d3.forceY(height / 2).strength(0.005))
+  .alphaDecay(0.02);
+
+// Add custom clustering force to keep related nodes together
+simulation.force("cluster", forceCluster());
+
+// Custom clustering force
+function forceCluster() {
+  const strength = 0.15;
+  let nodes;
+
+  function force(alpha) {
+    const nodesByParent = {};
+    
+    nodes.forEach(node => {
+      if (node.parent) {
+        const parentId = node.parent.id;
+        if (!nodesByParent[parentId]) {
+          nodesByParent[parentId] = [];
+        }
+        nodesByParent[parentId].push(node);
+      }
+    });
+    
+    Object.entries(nodesByParent).forEach(([parentId, children]) => {
+      const parent = nodes.find(n => n.id === parentId);
+      if (parent) {
+        const k = alpha * strength;
+        
+        let centroidX = 0, centroidY = 0;
+        children.forEach(child => {
+          centroidX += child.x;
+          centroidY += child.y;
+        });
+        centroidX /= children.length;
+        centroidY /= children.length;
+        
+        children.forEach(child => {
+          child.vx += (parent.x - child.x) * k;
+          child.vy += (parent.y - child.y) * k;
+          
+          child.vx += (centroidX - child.x) * k * 0.3;
+          child.vy += (centroidY - child.y) * k * 0.3;
+        });
+      }
+    });
+  }
+
+  force.initialize = function(_nodes) {
+    nodes = _nodes;
+  }
+
+  return force;
+}
+
+// Process hierarchical data
+const root = d3.hierarchy(bitcoinEcosystem);
+
+// Flatten data for force layout
+const nodes = flatten(root);
+const links = root.links();
+
+// Add link property to the flattened node data
+function flatten(root) {
+  const nodes = [];
+  
+  function recurse(node, depth = 0) {
+    if (node.children) {
+      node.children.forEach(child => recurse(child, depth + 1));
+    }
+    
+    if (node.data.id) {
+      node.id = node.data.id;
+      node.depth = depth;
+      node.name = node.data.name;
+      node.link = node.data.link;
+      nodes.push(node);
+    }
+  }
+  
+  recurse(root);
+  return nodes;
+}
+
+// Node distribution function
+function optimizeNodeDistribution() {
+  // Position and fix root node in center
+  const rootNode = nodes.find(n => n.depth === 0);
+  if (rootNode) {
+    rootNode.x = width / 2;
+    rootNode.y = height / 2;
+    rootNode.fx = width / 2;
+    rootNode.fy = height / 2;
+  }
+  
+  // Calculate optimal angles for first level to minimize crossings
+  const firstLevelNodesByChild = {};
+  nodes.forEach(node => {
+    if (node.depth === 1) {
+      const childCount = nodes.filter(n => n.parent && n.parent.id === node.id).length;
+      firstLevelNodesByChild[node.id] = childCount;
+    }
+  });
+  
+  // Sort first level nodes by number of children (descending)
+  const firstLevelNodes = nodes.filter(n => n.depth === 1)
+    .sort((a, b) => firstLevelNodesByChild[b.id] - firstLevelNodesByChild[a.id]);
+  
+  // Position first level nodes in a circle
+  if (firstLevelNodes.length > 0) {
+    // Organize first level in quadrants
+    const quadrants = [[], [], [], []]; // top-right, bottom-right, bottom-left, top-left
+    
+    firstLevelNodes.forEach((node, i) => {
+      quadrants[i % 4].push(node);
+    });
+    
+    // Place nodes in each quadrant
+    quadrants.forEach((nodes, quadIdx) => {
+      if (nodes.length === 0) return;
+      
+      const quadStartAngle = quadIdx * Math.PI/2;
+      const quadEndAngle = (quadIdx + 1) * Math.PI/2;
+      const angleStep = (quadEndAngle - quadStartAngle) / (nodes.length + 1);
+      
+      nodes.forEach((node, i) => {
+        const angle = quadStartAngle + angleStep * (i + 1);
+        const radius = 300;
+        
+        node.x = width/2 + radius * Math.cos(angle);
+        node.y = height/2 + radius * Math.sin(angle);
+      });
+    });
+  }
+  
+  // Position level 2 nodes around their parents
+  nodes.filter(n => n.depth === 2).forEach(node => {
+    if (!node.parent) return;
+    
+    const siblings = nodes.filter(n => 
+      n.depth === 2 && n.parent && n.parent.id === node.parent.id
+    );
+    
+    const dx = node.parent.x - width/2;
+    const dy = node.parent.y - height/2;
+    const parentAngle = Math.atan2(dy, dx);
+    
+    const arcSize = Math.PI * 0.5;
+    const angleStep = arcSize / (siblings.length + 1);
+    
+    const startAngle = parentAngle - arcSize/2;
+    
+    const idx = siblings.findIndex(s => s.id === node.id);
+    
+    const angle = startAngle + angleStep * (idx + 1);
+    const radius = 140;
+    
+    node.x = node.parent.x + radius * Math.cos(angle);
+    node.y = node.parent.y + radius * Math.sin(angle);
+  });
+  
+  // Position level 3 nodes in tight groups around their parents
+  nodes.filter(n => n.depth === 3).forEach((node, i) => {
+    if (!node.parent) return;
+    
+    const siblings = nodes.filter(n => 
+      n.depth === 3 && n.parent && n.parent.id === node.parent.id
+    );
+    
+    const dx = node.parent.x - width/2;
+    const dy = node.parent.y - height/2;
+    const parentAngle = Math.atan2(dy, dx);
+    
+    const arcSize = Math.PI * 0.3;
+    const angleStep = arcSize / (siblings.length + 1);
+    
+    const startAngle = parentAngle - arcSize/2;
+    
+    const idx = siblings.findIndex(s => s.id === node.id);
+    
+    const angle = startAngle + angleStep * (idx + 1);
+    const radius = 100;
+    
+    node.x = node.parent.x + radius * Math.cos(angle);
+    node.y = node.parent.y + radius * Math.sin(angle);
+  });
+}
+
+// Create links
+const link = g.selectAll(".link")
+  .data(links)
+  .enter()
+  .append("line")
+  .attr("class", d => `link link-${d.source.id} link-${d.target.id}`)
+  .style("stroke", "#e0e0e0")
+  .style("stroke-width", "1.5px")
+  .style("opacity", 0.7);
+
+// Create nodes
+const node = g.selectAll(".node")
+  .data(nodes)
+  .enter()
+  .append("g")
+  .attr("class", d => `node depth-${d.depth}`)
+  .attr("id", d => `node-${d.id}`)
+  .style("cursor", "pointer")
+  .on("click", function(event, d) {
+    if (d.link) {
+      window.open(d.link, "_blank");
+    }
+  })
+  .call(d3.drag()
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended));
+
+// Calculate text width for nodes
+nodes.forEach(d => {
+  if (d.depth === 1 || d.depth === 2) {
+    const textLength = d.name.length;
+    const charWidth = 7; // Approximate width per character
+    const padding = 24; // Padding on both sides
+    const minWidth = 60; // Minimum width
+    
+    d.rectWidth = Math.max(minWidth, textLength * charWidth + padding);
+    d.rectHeight = 44; // Fixed height
+  }
+});
+
+// Add shapes to nodes
+node.each(function(d) {
+  const nodeSelection = d3.select(this);
+  
+  if (d.depth === 0 || d.depth === 3) {
+    // Circles for depth 0 and 3
+    const radius = d.depth === 0 ? 50 : 30;
+    nodeSelection.append("circle")
+      .attr("r", radius)
+      .attr("class", "node-shape");
+  } else {
+    // Rectangles for depth 1 and 2 with dynamic width
+    nodeSelection.append("rect")
+      .attr("width", d.rectWidth)
+      .attr("height", d.rectHeight)
+      .attr("x", -d.rectWidth / 2)
+      .attr("y", -d.rectHeight / 2)
+      .attr("class", "node-shape");
+  }
+});
+
+// Add hover effects to nodes
+node.on("mouseover", function(event, d) {
+  showTooltip(event, d);
+  
+  const currentNode = d3.select(this);
+  const nodeId = d.id;
+  
+  currentNode.classed("highlighted", true);
+  
+  link.classed("highlighted", function(l) {
+    if (l.source.id === nodeId || l.target.id === nodeId) {
+      const connectedId = l.source.id === nodeId ? l.target.id : l.source.id;
+      g.selectAll(`.node`).filter(n => n.id === connectedId)
+        .classed("highlighted", true);
+      return true;
+    }
+    return false;
+  });
+})
+.on("mouseout", function(event, d) {
+  hideTooltip();
+  g.selectAll(".highlighted").classed("highlighted", false);
+});
+
+// Define logos array
+const availableLogos = ["bitcoin", "ledger", "mempool-space", "bitbox", "relai", "coinfinity", "21bitcoin", "pocket", "trezor", "sparrow", "coldcard", "peachbitcoin", "bisq", "haveno", "hodlhodl", "kraken", "coinbase", "binance", "electrum", "wasabi", "bluewallet", "bitcoin-core", "bitcoinde", "bison", "umbrel", "raspiblitz", "coinmarketcap", "coingecko", "bitaxe", "bitinfocharts", "bitnodes", "glassnode"];
+
+// Add content to nodes (logos or text)
+node.each(function(d) {
+  const nodeId = d.id;
+  const nodeSelection = d3.select(this);
+  
+  if (availableLogos.includes(nodeId)) {
+    // For nodes with logos
+    const clipPathId = `clip-${nodeId}`;
+    
+    if (d.depth === 0 || d.depth === 3) {
+      // Circular clip path
+      const radius = d.depth === 0 ? 50 : 30;
+      defs.append("clipPath")
+        .attr("id", clipPathId)
+        .append("circle")
+        .attr("r", radius);
+      
+      nodeSelection.append("image")
+        .attr("xlink:href", `assets/logos/${nodeId}.png`)
+        .attr("x", -radius)
+        .attr("y", -radius)
+        .attr("width", radius * 2)
+        .attr("height", radius * 2)
+        .attr("clip-path", `url(#${clipPathId})`)
+        .on("error", function() {
+          d3.select(this).remove();
+          addNodeText(nodeSelection, d);
+        });
+    } else {
+      // Rectangular clip path
+      defs.append("clipPath")
+        .attr("id", clipPathId)
+        .append("rect")
+        .attr("width", d.rectWidth)
+        .attr("height", d.rectHeight)
+        .attr("x", -d.rectWidth / 2)
+        .attr("y", -d.rectHeight / 2)
+        .attr("rx", 4)
+        .attr("ry", 4);
+      
+      nodeSelection.append("image")
+        .attr("xlink:href", `assets/logos/${nodeId}.png`)
+        .attr("x", -d.rectWidth / 2)
+        .attr("y", -d.rectHeight / 2)
+        .attr("width", d.rectWidth)
+        .attr("height", d.rectHeight)
+        .attr("clip-path", `url(#${clipPathId})`)
+        .on("error", function() {
+          d3.select(this).remove();
+          addNodeText(nodeSelection, d);
+        });
+    }
+  } else {
+    // For nodes without logos
+    addNodeText(nodeSelection, d);
+  }
+});
+
+// Function to add text to nodes
+function addNodeText(nodeSelection, d) {
+  nodeSelection.append("text")
+    .attr("class", "node-inner-text")
+    .text(d.name);
+}
+
+// Run simulation warmup
+function warmupSimulation() {
+  // Keep root node fixed throughout
+  const rootNode = nodes.find(n => n.depth === 0);
+  if (rootNode) {
+    rootNode.fx = width / 2;
+    rootNode.fy = height / 2;
+  }
+  
+  // Set initial positions
+  optimizeNodeDistribution();
+  
+  // High-temperature phase for initial settling
+  simulation.alpha(1);
+  for (let i = 0; i < 100; ++i) {
+    simulation.tick();
+  }
+  
+  // Progressive cooldown phases
+  const alphaSteps = [0.5, 0.3, 0.1];
+  alphaSteps.forEach(alpha => {
+    simulation.alpha(alpha);
+    for (let i = 0; i < 50; ++i) {
+      simulation.tick();
+    }
+  });
+  
+  // Update positions
+  ticked();
+}
+
+// Add entrance animations
+function addEntranceAnimations() {
+  // Animate links
+  link.style("opacity", 0)
+    .transition()
+    .delay((d, i) => 300 + i * 5)
+    .duration(800)
+    .style("opacity", 0.7);
+  
+  // Animate nodes
+  node.style("opacity", 0)
+    .attr("transform", d => `translate(${width/2},${height/2}) scale(0.1)`)
+    .transition()
+    .delay(d => d.depth * 200)
+    .duration(1000)
+    .style("opacity", 1)
+    .attrTween("transform", function(d) {
+      return function(t) {
+        const x = width/2 + (d.x - width/2) * t;
+        const y = height/2 + (d.y - height/2) * t;
+        const scale = 0.1 + t * 0.9;
+        return `translate(${x},${y}) scale(${scale})`;
+      };
+    });
+}
+
+// Initialize visualization
+optimizeNodeDistribution();
+warmupSimulation();
+addEntranceAnimations();
+
+// Start simulation
+simulation
+  .nodes(nodes)
+  .on("tick", ticked);
+
+simulation.force("link")
+  .links(links);
+
+// Ticked function
+function ticked() {
+  // Keep root node fixed at center
+  const rootNode = nodes.find(n => n.depth === 0);
+  if (rootNode) {
+    rootNode.x = width / 2;
+    rootNode.y = height / 2;
+  }
+  
+  link
+    .attr("x1", d => d.source.x)
+    .attr("y1", d => d.source.y)
+    .attr("x2", d => d.target.x)
+    .attr("y2", d => d.target.y);
+  
+  g.selectAll(".node")
+    .attr("transform", d => `translate(${d.x},${d.y})`);
+}
+
+// Helper functions for dragging
+function dragstarted(event, d) {
+  if (d.depth === 0) return; // Prevent dragging root node
+  if (!event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(event, d) {
+  if (d.depth === 0) return; // Prevent dragging root node
+  d.fx = event.x;
+  d.fy = event.y;
+}
+
+function dragended(event, d) {
+  if (d.depth === 0) return; // Prevent dragging root node
+  if (!event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+
+// Tooltip functions
+function showTooltip(event, d) {
+  const tooltip = d3.select(".tooltip");
+  tooltip.transition()
+    .duration(200)
+    .style("opacity", 1);
+  
+  tooltip.html(d.name)
+    .style("left", (event.pageX + 15) + "px")
+    .style("top", (event.pageY - 28) + "px");
+}
+
+function hideTooltip() {
+  d3.select(".tooltip")
+    .transition()
+    .duration(500)
+    .style("opacity", 0);
+}
+
+// Initialize zoom buttons
+function initZoomControls() {
+  // Clear any existing listeners
+  document.getElementById("zoom-in").replaceWith(document.getElementById("zoom-in").cloneNode(true));
+  document.getElementById("zoom-out").replaceWith(document.getElementById("zoom-out").cloneNode(true));
+  document.getElementById("reset").replaceWith(document.getElementById("reset").cloneNode(true));
+  
+  // Zoom in button
+  document.getElementById("zoom-in").addEventListener("click", () => {
+    svg.transition()
+      .duration(300)
+      .call(zoom.scaleBy, 1.3);
+  });
+  
+  // Zoom out button
+  document.getElementById("zoom-out").addEventListener("click", () => {
+    svg.transition()
+      .duration(300)
+      .call(zoom.scaleBy, 0.7);
+  });
+  
+  // Reset button
+  document.getElementById("reset").addEventListener("click", resetZoom);
+}
+
+// Reset zoom function
+function resetZoom() {
+  // Center on Bitcoin (root) node
+  const rootNode = nodes.find(n => n.depth === 0);
+  
+  // Calculate bounds of all nodes
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  
+  nodes.forEach(node => {
+    minX = Math.min(minX, node.x);
+    maxX = Math.max(maxX, node.x);
+    minY = Math.min(minY, node.y);
+    maxY = Math.max(maxY, node.y);
+  });
+  
+  // Add padding
+  const padding = 50;
+  minX -= padding;
+  maxX += padding;
+  minY -= padding;
+  maxY += padding;
+  
+  // Calculate required scale to fit all nodes
+  const graphWidth = maxX - minX;
+  const graphHeight = maxY - minY;
+  const scaleX = width / graphWidth;
+  const scaleY = height / graphHeight;
+  const scale = Math.min(scaleX, scaleY, 1) * 0.9;
+  
+  // Apply transformation centered on root node
+  svg.transition()
+    .duration(800)
+    .call(
+      zoom.transform,
+      d3.zoomIdentity
+        .translate(width / 2, height / 2)
+        .scale(scale)
+        .translate(-rootNode.x, -rootNode.y)
+    );
+}
+
+// Initialize zoom controls
+initZoomControls();
+
+// Search functionality
+document.querySelector(".search-input").addEventListener("input", function() {
+  const searchTerm = this.value.toLowerCase();
+  
+  if (searchTerm === "") {
+    node.style("opacity", 1);
+    link.style("opacity", 1);
+    return;
+  }
+  
+  const matchedNodes = new Set();
+  
+  // Find matching nodes and their ancestors
+  nodes.forEach(n => {
+    if (n.name.toLowerCase().includes(searchTerm)) {
+      matchedNodes.add(n);
+      
+      // Add all ancestors
+      let ancestor = n.parent;
+      while (ancestor) {
+        matchedNodes.add(ancestor);
+        ancestor = ancestor.parent;
+      }
+    }
+  });
+  
+  // Highlight matching nodes and dim others
+  node.style("opacity", d => matchedNodes.has(d) ? 1 : 0.2);
+  
+  // Highlight links connecting matched nodes
+  link.style("opacity", d => 
+    matchedNodes.has(d.source) && matchedNodes.has(d.target) ? 1 : 0.1
+  );
+});
+
+// Window resize handler
+window.addEventListener("resize", () => {
+  const newWidth = window.innerWidth;
+  const newHeight = window.innerHeight;
+  
+  // Keep root node centered on resize
+  const rootNode = nodes.find(n => n.depth === 0);
+  if (rootNode) {
+    rootNode.fx = newWidth / 2;
+    rootNode.fy = newHeight / 2;
+  }
+  
+  // Update simulation center force
+  simulation
+    .force("center", d3.forceCenter(newWidth / 2, newHeight / 2))
+    .alpha(0.3)
+    .restart();
+  
+  // Update zoom controls for new dimensions
+  initZoomControls();
+});
+
+// Add credit in bottom right corner
+const footer = document.createElement('div');
+footer.style.cssText = `
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 12px;
+  z-index: 10;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+`;
+
+footer.innerHTML = 'Made with ❤️ by <a href="https://twitter.com/miotares" target="_blank" style="color: #1DA1F2; text-decoration: none; font-weight: 600;">@miotares</a>';
+document.querySelector('.container').appendChild(footer);
+  </script>
+</body>
+</html>
