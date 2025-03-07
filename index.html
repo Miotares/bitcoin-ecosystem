@@ -308,12 +308,12 @@ const bitcoinEcosystem = {
     {
       id: "wallets",
       name: "Wallets",
-      link: "https://bitcoin.org/en/choose-your-wallet",
+      link: "",
       children: [
         { 
-          id: "hardware", 
-          name: "Hardware",
-          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          id: "hardware-wallets", 
+          name: "Hardware-Wallets",
+          link: "",
           children: [
             { id: "trezor", name: "Trezor", link: "https://trezor.io" },
             { id: "bitbox", name: "BitBox", link: "https://shiftcrypto.ch" },
@@ -322,14 +322,16 @@ const bitcoinEcosystem = {
           ]
         },
         { 
-          id: "software", 
-          name: "Software",
-          link: "https://en.bitcoin.it/wiki/Software_wallet",
+          id: "software-wallets", 
+          name: "Software-Wallets",
+          link: "",
           children: [
             { id: "electrum", name: "Electrum", link: "https://electrum.org" },
             { id: "bitcoin-core", name: "Bitcoin Core", link: "https://bitcoincore.org" },
             { id: "sparrow", name: "Sparrow", link: "https://sparrowwallet.com" },
             { id: "wasabi", name: "Wasabi", link: "https://wasabiwallet.io" },
+            { id: "bluewallet", name: "BlueWallet", link: "https://bluewallet.io/" },
+
           ]
         }
       ]
@@ -337,12 +339,12 @@ const bitcoinEcosystem = {
     {
       id: "bitcoin-kaufen",
       name: "Bitcoin kaufen",
-      link: "https://en.bitcoin.it/wiki/Buying_Bitcoin",
+      link: "",
       children: [
         { 
           id: "borsen", 
-          name: "Börsen",
-          link: "https://en.bitcoin.it/wiki/Exchanges",
+          name: "CEX",
+          link: "",
           children: [
             { id: "coinbase", name: "Coinbase", link: "https://www.coinbase.com" },
             { id: "kraken", name: "Kraken", link: "https://www.kraken.com" },
@@ -352,7 +354,7 @@ const bitcoinEcosystem = {
         },
         { 
           id: "direkt-auf-die-wallet", 
-          name: "Direkt auf die Wallet",
+          name: "Non-Custodial",
           link: "#",
           children: [
             { id: "coinfinity", name: "Coinfinity", link: "https://coinfinity.co" },
@@ -363,14 +365,17 @@ const bitcoinEcosystem = {
         },
         { 
           id: "p2p", 
-          name: "P2P",
-          link: "https://en.bitcoin.it/wiki/P2P_Trading_Platforms",
+          name: "P2P/DEX",
+          link: "",
           children: [
             { id: "hodlhodl", name: "HodlHodl", link: "https://hodlhodl.com" },
             { id: "peachbitcoin", name: "PeachBitcoin", link: "https://peachbitcoin.com" },
             { id: "bisq", name: "Bisq", link: "https://bisq.network" },
             { id: "haveno", name: "Haveno", link: "https://haveno.exchange" },
-            { id: "bitcoinde", name: "Bitcoin.de", link: "https://www.bitcoin.de/de" }
+            { id: "bitcoinde", name: "Bitcoin.de", link: "https://www.bitcoin.de/de" },
+            { id: "robosats", name: "Robosats", link: "https://github.com/RoboSats/robosats" },
+            { id: "agoradesk", name: "AgoraDesk", link: "https://agoradesk.com/" }
+            
           ]
         }
       ]
@@ -378,12 +383,12 @@ const bitcoinEcosystem = {
     {
       id: "markt-data",
       name: "Daten",
-      link: "https://bitcoin.org/en/choose-your-wallet",
+      link: "",
       children: [
         { 
           id: "preisdaten", 
           name: "Preisdaten",
-          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          link: "",
           children: [
             { id: "coinmarketcap", name: "CoinMarketCap", link: "https://coinmarketcap.com" },
             { id: "coingecko", name: "Coingecko", link: "https://coingecko.com" },
@@ -392,7 +397,7 @@ const bitcoinEcosystem = {
         { 
           id: "blockchain-analyse", 
           name: "Blockchain Analyse",
-          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          link: "",
           children: [
             { id: "bitinfocharts", name: "BitInfoCharts", link: "https://bitinfocharts.com/bitcoin/" },
             { id: "mempool-space", name: "mempool.space", link: "https://mempool.space" },
@@ -405,12 +410,12 @@ const bitcoinEcosystem = {
     {
       id: "hardware",
       name: "Hardware",
-      link: "https://bitcoin.org/en/choose-your-wallet",
+      link: "",
       children: [
         { 
           id: "mining", 
           name: "Mining",
-          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          link: "",
           children: [
             { id: "bitaxe", name: "Bitaxe", link: "https://trezor.io" },
           ]
@@ -418,10 +423,119 @@ const bitcoinEcosystem = {
         {
           id: "nodes", 
           name: "Nodes",
-          link: "https://en.bitcoin.it/wiki/Hardware_wallet",
+          link: "",
           children: [
             { id: "umbrel", name: "Umbrel", link: "https://umbrel.com/" },
             { id: "raspiblitz", name: "Raspiblitz", link: "https://github.com/raspiblitz/raspiblitz" },
+          ]
+        }
+      ]
+    },
+    {
+      id: "bildung-medien",
+      name: "Bildung & Medien",
+      link: "",
+      children: [
+        { 
+          id: "bildung", 
+          name: "Bildung",
+          link: "",
+          children: [
+            { id: "blocktrainer", name: "Blocktrainer", link: "https://blocktrainer.de" },
+            { id: "bitcoinverstehen", name: "Bitcoin verstehen", link: "https://bitcoinverstehen.info/" },
+            { id: "wasbitcoinbringt", name: "Was Bitcoin bringt", link: "https://www.wasbitcoinbringt.com/" },
+          ]
+        },
+        { 
+          id: "medien", 
+          name: "Medien",
+          link: "",
+          children: [
+            { id: "aprycotmedia", name: "Aprycot Media", link: "https://aprycot.media/" },
+          ]
+        }
+      ]
+    },
+    {
+      id: "dienstleistungen",
+      name: "Dienstleistungen & Tools",
+      link: "",
+      children: [
+        { 
+          id: "versicherung", 
+          name: "Versicherung",
+          link: "",
+          children: [
+            { id: "bitsurance", name: "Bitsurance", link: "https://www.bitsurance.eu/" },
+          ]
+        },
+        { 
+          id: "steuern", 
+          name: "Steuern",
+          link: "",
+          children: [
+            { id: "cointracking", name: "Cointracking", link: "https://cointracking.info/" },
+            { id: "blockpit", name: "Blockpit", link: "https://www.blockpit.io/" },
+          ]
+        },
+        { 
+          id: "kredite", 
+          name: "Kredite",
+          link: "",
+          children: [
+            { id: "firefish", name: "Firefish", link: "https://firefish.io/" },
+          ]
+        }
+      ]
+    },
+    {
+      id: "lightning",
+      name: "Lightning",
+      link: "",
+      children: [
+        { 
+          id: "lightning-wallets", 
+          name: "Wallets",
+          link: "",
+          children: [
+            { id: "walletofsatoshi", name: "Wallet of Satoshi", link: "https://www.walletofsatoshi.com/" },
+            { id: "breez", name: "Breez", link: "https://breez.technology/" },
+            { id: "phoenix", name: "Phoenix", link: "https://phoenix.acinq.co/" },
+            { id: "bluewallet", name: "BlueWallet", link: "https://bluewallet.io/" },
+          ]
+        }
+      ]
+    },
+    {
+      id: "markt",
+      name: "Mit Bitcoin zahlen",
+      link: "",
+      children: [
+        { 
+          id: "shops", 
+          name: "Shops",
+          link: "",
+          children: [
+            { id: "shopinbit", name: "ShopInBit", link: "https://shopinbit.com/" },
+            { id: "bitrefill", name: "Bitrefill", link: "https://www.bitrefill.com/" },
+          ]
+        },
+        { 
+          id: "hosting", 
+          name: "Hosting & Services",
+          link: "",
+          children: [
+            { id: "njalla", name: "Njalla", link: "https://njal.la/" },
+            { id: "proton", name: "Proton Suite", link: "https://proton.me/" },
+          ]
+        },
+        { 
+          id: "spenden", 
+          name: "Spenden & Zahlungen",
+          link: "",
+          children: [
+            { id: "btcpayserver", name: "BTC Pay Server", link: "https://btcpayserver.org/" },
+            { id: "bitpay", name: "bitpay", link: "https://www.bitpay.com/" },
           ]
         }
       ]
@@ -493,6 +607,14 @@ style.textContent = `
     font-size: 11px;
   }
   
+  .node-label {
+    text-anchor: middle;
+    font-size: 10px;
+    fill: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    pointer-events: none;
+  }
+  
   .node {
     cursor: pointer;
   }
@@ -518,15 +640,6 @@ const zoom = d3.zoom()
 
 svg.call(zoom);
 
-// Improved initial view setup with responsive scaling
-const initialScale = Math.min(width, height) / 1800;
-svg.call(
-  zoom.transform, 
-  d3.zoomIdentity
-    .translate(width / 2, height / 2)
-    .scale(initialScale * 1.5)
-);
-
 // Improved force simulation with better parameters
 const simulation = d3.forceSimulation()
   .force("link", d3.forceLink().id(d => d.id).distance(d => {
@@ -543,7 +656,7 @@ const simulation = d3.forceSimulation()
   .force("collide", d3.forceCollide(d => {
     return d.depth === 0 ? 150 :
            d.depth === 1 ? 120 :
-           d.depth === 2 ? 90 : 50;
+           d.depth === 2 ? 90 : 60; // Increased to accommodate labels
   }).strength(1))
   .force("x", d3.forceX(width / 2).strength(0.005))
   .force("y", d3.forceY(height / 2).strength(0.005))
@@ -596,7 +709,7 @@ function forceCluster() {
 
   force.initialize = function(_nodes) {
     nodes = _nodes;
-  }
+  };
 
   return force;
 }
@@ -798,8 +911,6 @@ node.each(function(d) {
 
 // Add hover effects to nodes
 node.on("mouseover", function(event, d) {
-  showTooltip(event, d);
-  
   const currentNode = d3.select(this);
   const nodeId = d.id;
   
@@ -816,12 +927,11 @@ node.on("mouseover", function(event, d) {
   });
 })
 .on("mouseout", function(event, d) {
-  hideTooltip();
   g.selectAll(".highlighted").classed("highlighted", false);
 });
 
 // Define logos array
-const availableLogos = ["bitcoin", "ledger", "mempool-space", "bitbox", "relai", "coinfinity", "21bitcoin", "pocket", "trezor", "sparrow", "coldcard", "peachbitcoin", "bisq", "haveno", "hodlhodl", "kraken", "coinbase", "binance", "electrum", "wasabi", "bluewallet", "bitcoin-core", "bitcoinde", "bison", "umbrel", "raspiblitz", "coinmarketcap", "coingecko", "bitaxe", "bitinfocharts", "bitnodes", "glassnode"];
+const availableLogos = ["bitcoin", "ledger", "mempool-space", "bitbox", "relai", "coinfinity", "21bitcoin", "pocket", "trezor", "sparrow", "coldcard", "peachbitcoin", "bisq", "haveno", "hodlhodl", "kraken", "coinbase", "binance", "electrum", "wasabi", "bluewallet", "bitcoin-core", "bitcoinde", "bison", "umbrel", "raspiblitz", "coinmarketcap", "coingecko", "bitaxe", "bitinfocharts", "bitnodes", "glassnode", "robosats", "agoradesk", "blocktrainer", "aprycotmedia", "bitcoinverstehen", "wasbitcoinbringt", "bitsurance", "blockpit", "cointracking", "breez", "walletofsatoshi", "phoenix", "bitrefill", "shopinbit", "njalla", "proton", "btcpayserver", "firefish", "bitpay"];
 
 // Add content to nodes (logos or text)
 node.each(function(d) {
@@ -879,13 +989,24 @@ node.each(function(d) {
     // For nodes without logos
     addNodeText(nodeSelection, d);
   }
+  
+  // Add labels for depth 3 nodes
+  if (d.depth === 3) {
+    nodeSelection.append("text")
+      .attr("class", "node-label")
+      .attr("y", 42)  // Position below the node
+      .text(d.name);
+  }
 });
 
 // Function to add text to nodes
 function addNodeText(nodeSelection, d) {
-  nodeSelection.append("text")
-    .attr("class", "node-inner-text")
-    .text(d.name);
+  // Only add inner text for depths 0, 1, and 2
+  if (d.depth !== 3) {
+    nodeSelection.append("text")
+      .attr("class", "node-inner-text")
+      .text(d.name);
+  }
 }
 
 // Run simulation warmup
@@ -945,18 +1066,66 @@ function addEntranceAnimations() {
     });
 }
 
+// Reset zoom function
+function resetZoom() {
+  // Center on Bitcoin (root) node
+  const rootNode = nodes.find(n => n.depth === 0);
+  
+  // Calculate bounds of all nodes
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  
+  nodes.forEach(node => {
+    minX = Math.min(minX, node.x);
+    maxX = Math.max(maxX, node.x);
+    minY = Math.min(minY, node.y);
+    maxY = Math.max(maxY, node.y);
+  });
+  
+  // Add padding
+  const padding = 50;
+  minX -= padding;
+  maxX += padding;
+  minY -= padding;
+  maxY += padding;
+  
+  // Calculate required scale to fit all nodes
+  const graphWidth = maxX - minX;
+  const graphHeight = maxY - minY;
+  const scaleX = width / graphWidth;
+  const scaleY = height / graphHeight;
+  const scale = Math.min(scaleX, scaleY, 1) * 0.9;
+  
+  // Apply transformation centered on root node
+  svg.transition()
+    .duration(800)
+    .call(
+      zoom.transform,
+      d3.zoomIdentity
+        .translate(width / 2, height / 2)
+        .scale(scale)
+        .translate(-rootNode.x, -rootNode.y)
+    );
+}
+
 // Initialize visualization
-optimizeNodeDistribution();
-warmupSimulation();
-addEntranceAnimations();
+function initVisualization() {
+  optimizeNodeDistribution();
+  warmupSimulation();
+  
+  // Start simulation
+  simulation
+    .nodes(nodes)
+    .on("tick", ticked);
 
-// Start simulation
-simulation
-  .nodes(nodes)
-  .on("tick", ticked);
-
-simulation.force("link")
-  .links(links);
+  simulation.force("link")
+    .links(links);
+    
+  // Center the view initially after animation
+  setTimeout(resetZoom, 2000);
+  
+  // Start entrance animations after setup
+  addEntranceAnimations();
+}
 
 // Ticked function
 function ticked() {
@@ -998,25 +1167,6 @@ function dragended(event, d) {
   d.fy = null;
 }
 
-// Tooltip functions
-function showTooltip(event, d) {
-  const tooltip = d3.select(".tooltip");
-  tooltip.transition()
-    .duration(200)
-    .style("opacity", 1);
-  
-  tooltip.html(d.name)
-    .style("left", (event.pageX + 15) + "px")
-    .style("top", (event.pageY - 28) + "px");
-}
-
-function hideTooltip() {
-  d3.select(".tooltip")
-    .transition()
-    .duration(500)
-    .style("opacity", 0);
-}
-
 // Initialize zoom buttons
 function initZoomControls() {
   // Clear any existing listeners
@@ -1040,47 +1190,6 @@ function initZoomControls() {
   
   // Reset button
   document.getElementById("reset").addEventListener("click", resetZoom);
-}
-
-// Reset zoom function
-function resetZoom() {
-  // Center on Bitcoin (root) node
-  const rootNode = nodes.find(n => n.depth === 0);
-  
-  // Calculate bounds of all nodes
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-  
-  nodes.forEach(node => {
-    minX = Math.min(minX, node.x);
-    maxX = Math.max(maxX, node.x);
-    minY = Math.min(minY, node.y);
-    maxY = Math.max(maxY, node.y);
-  });
-  
-  // Add padding
-  const padding = 50;
-  minX -= padding;
-  maxX += padding;
-  minY -= padding;
-  maxY += padding;
-  
-  // Calculate required scale to fit all nodes
-  const graphWidth = maxX - minX;
-  const graphHeight = maxY - minY;
-  const scaleX = width / graphWidth;
-  const scaleY = height / graphHeight;
-  const scale = Math.min(scaleX, scaleY, 1) * 0.9;
-  
-  // Apply transformation centered on root node
-  svg.transition()
-    .duration(800)
-    .call(
-      zoom.transform,
-      d3.zoomIdentity
-        .translate(width / 2, height / 2)
-        .scale(scale)
-        .translate(-rootNode.x, -rootNode.y)
-    );
 }
 
 // Initialize zoom controls
@@ -1160,6 +1269,9 @@ footer.style.cssText = `
 
 footer.innerHTML = 'Made with ❤️ by <a href="https://twitter.com/miotares" target="_blank" style="color: #1DA1F2; text-decoration: none; font-weight: 600;">@miotares</a>';
 document.querySelector('.container').appendChild(footer);
+
+// Initialize the visualization
+initVisualization();
   </script>
 </body>
 </html>
