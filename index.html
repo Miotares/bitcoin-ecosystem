@@ -296,25 +296,7 @@
       <button class="control-button" id="reset">⟳</button>
     </div>
     
-    <div class="legend">
-      <div class="legend-title">Bitcoin Ecosystem</div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #f7931a;"></div>
-        <span>Bitcoin Core</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #fff; border: 3px solid #f7931a;"></div>
-        <span>Main Categories</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #f4f4f4; border: 1.5px solid #555;"></div>
-        <span>Subcategories</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-color" style="background-color: #fff; border: 1.5px solid #f7931a;"></div>
-        <span>Projects & Services</span>
-      </div>
-    </div>
+    
     
     <div class="tooltip"></div>
     
@@ -342,8 +324,11 @@ const bitcoinEcosystem = {
             { id: "trezor", name: "Trezor", link: "https://trezor.io" },
             { id: "bitbox", name: "BitBox", link: "https://shiftcrypto.ch" },
             { id: "coldcard", name: "ColdCard", link: "https://coldcard.com" },
-            { id: "ledger", name: "Ledger", link: "https://www.ledger.com" }
-          ]
+            { id: "ledger", name: "Ledger", link: "https://www.ledger.com" },
+            { id: "seedsigner", name: "SeedSigner", link: "https://seedsigner.com/" },
+            { id: "specterdiy", name: "SpecterDIY", link: "https://specter.solutions/hardware" }
+
+                    ]
         },
         { 
           id: "software-wallets", 
@@ -384,7 +369,9 @@ const bitcoinEcosystem = {
             { id: "coinfinity", name: "Coinfinity", link: "https://coinfinity.co" },
             { id: "relai", name: "Relai", link: "https://relai.app" },
             { id: "21bitcoin", name: "21Bitcoin", link: "https://21bitcoin.app" },
-            { id: "pocket", name: "Pocket", link: "https://pocketbitcoin.com" }
+            { id: "pocket", name: "Pocket", link: "https://pocketbitcoin.com" },
+            { id: "bittr", name: "Bittr", link: "https://getbittr.com/" },
+
           ]
         },
         { 
@@ -961,7 +948,7 @@ node.on("mouseover", function(event, d) {
 });
 
 // Define logos array
-const availableLogos = ["derhelper","braiins","nextdns","tuta","bitcoin", "ledger", "mempool-space", "bitbox", "relai", "coinfinity", "21bitcoin", "pocket", "trezor", "sparrow", "coldcard", "peachbitcoin", "bisq", "haveno", "hodlhodl", "kraken", "coinbase", "binance", "electrum", "wasabi", "bluewallet", "bitcoin-core", "bitcoinde", "bison", "umbrel", "raspiblitz", "coinmarketcap", "coingecko", "bitaxe", "bitinfocharts", "bitnodes", "glassnode", "robosats", "agoradesk", "blocktrainer", "aprycotmedia", "bitcoinverstehen", "wasbitcoinbringt", "bitsurance", "blockpit", "cointracking", "breez", "walletofsatoshi", "phoenix", "bitrefill", "shopinbit", "njalla", "proton", "btcpayserver", "firefish", "bitpay","derbitcoinpodcast"];
+const availableLogos = ["derhelper","braiins","nextdns","tuta","bitcoin", "ledger", "mempool-space", "bitbox", "relai", "coinfinity", "21bitcoin", "pocket", "trezor", "sparrow", "coldcard", "peachbitcoin", "bisq", "haveno", "hodlhodl", "kraken", "coinbase", "binance", "electrum", "wasabi", "bluewallet", "bitcoin-core", "bitcoinde", "bison", "umbrel", "raspiblitz", "coinmarketcap", "coingecko", "bitaxe", "bitinfocharts", "bitnodes", "glassnode", "robosats", "agoradesk", "blocktrainer", "aprycotmedia", "bitcoinverstehen", "wasbitcoinbringt", "bitsurance", "blockpit", "cointracking", "breez", "walletofsatoshi", "phoenix", "bitrefill", "shopinbit", "njalla", "proton", "btcpayserver", "firefish", "bitpay","derbitcoinpodcast", "seedsigner", "specterdiy", "bittr"];
 
 // Add content to nodes (logos or text)
 node.each(function(d) {
