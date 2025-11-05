@@ -288,6 +288,11 @@
   <div class="container">
     <div class="search-container">
       <input type="text" class="search-input" placeholder="Search the Bitcoin ecosystem...">
+      <select class="filter-select" aria-label="Region filtern">
+        <option value="">Alle Regionen</option>
+        <option value="International">International</option>
+        <option value="Europa">Europa</option>
+      </select>
     </div>
     
     <div class="controls">
@@ -305,990 +310,286 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
   <script>
-// Data structure for Bitcoin ecosystem
-const bitcoinEcosystem = {
-  id: "bitcoin",
-  name: "Bitcoin",
-  link: "https://bitcoin.org",
-  children: [
-    {
-      id: "wallets",
-      name: "Wallets",
-      link: "",
-      children: [
-        { 
-          id: "hardware-wallets", 
-          name: "Hardware-Wallets",
-          link: "",
-          children: [
-            { id: "trezor", name: "Trezor", link: "https://trezor.io" },
-            { id: "bitbox", name: "BitBox", link: "https://shiftcrypto.ch" },
-            { id: "coldcard", name: "ColdCard", link: "https://coldcard.com" },
-            { id: "ledger", name: "Ledger", link: "https://www.ledger.com" },
-            { id: "seedsigner", name: "SeedSigner", link: "https://seedsigner.com/" },
-            { id: "specterdiy", name: "SpecterDIY", link: "https://specter.solutions/hardware" }
+// Dynamisches Laden der Services aus JSON und Rendering mit D3
+(async function() {
+  const response = await fetch('assets/services.json');
+  const data = await response.json();
 
-                    ]
-        },
-        { 
-          id: "software-wallets", 
-          name: "Software-Wallets",
-          link: "",
-          children: [
-            { id: "electrum", name: "Electrum", link: "https://electrum.org" },
-            { id: "bitcoin-core", name: "Bitcoin Core", link: "https://bitcoincore.org" },
-            { id: "sparrow", name: "Sparrow", link: "https://sparrowwallet.com" },
-            { id: "wasabi", name: "Wasabi", link: "https://wasabiwallet.io" },
-            { id: "bluewallet", name: "BlueWallet", link: "https://bluewallet.io/" },
+  const svg = d3.select("#bitcoin-ecosystem");
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const g = svg.append("g");
+  const defs = svg.append("defs");
 
-          ]
-        }
-      ]
-    },
-    {
-      id: "bitcoin-kaufen",
-      name: "Bitcoin kaufen",
-      link: "",
-      children: [
-        { 
-          id: "borsen", 
-          name: "CEX",
-          link: "",
-          children: [
-            { id: "coinbase", name: "Coinbase", link: "https://www.coinbase.com" },
-            { id: "kraken", name: "Kraken", link: "https://www.kraken.com" },
-            { id: "binance", name: "Binance", link: "https://www.binance.com" },
-            { id: "bison", name: "Bison", link: "https://bisonapp.com/" }
-          ]
-        },
-        { 
-          id: "direkt-auf-die-wallet", 
-          name: "Non-Custodial",
-          link: "#",
-          children: [
-            { id: "coinfinity", name: "Coinfinity", link: "https://coinfinity.co" },
-            { id: "relai", name: "Relai", link: "https://relai.app" },
-            { id: "21bitcoin", name: "21Bitcoin", link: "https://21bitcoin.app" },
-            { id: "pocket", name: "Pocket", link: "https://pocketbitcoin.com" },
-            { id: "bittr", name: "Bittr", link: "https://getbittr.com/" },
-
-          ]
-        },
-        { 
-          id: "p2p", 
-          name: "P2P/DEX",
-          link: "",
-          children: [
-            { id: "hodlhodl", name: "HodlHodl", link: "https://hodlhodl.com" },
-            { id: "peachbitcoin", name: "PeachBitcoin", link: "https://peachbitcoin.com" },
-            { id: "bisq", name: "Bisq", link: "https://bisq.network" },
-            { id: "haveno", name: "Haveno", link: "https://haveno.exchange" },
-            { id: "bitcoinde", name: "Bitcoin.de", link: "https://www.bitcoin.de/de" },
-            { id: "robosats", name: "Robosats", link: "https://github.com/RoboSats/robosats" },
-            { id: "agoradesk", name: "AgoraDesk", link: "https://agoradesk.com/" }
-            
-          ]
-        }
-      ]
-    },
-    {
-      id: "markt-data",
-      name: "Daten",
-      link: "",
-      children: [
-        { 
-          id: "preisdaten", 
-          name: "Preisdaten",
-          link: "",
-          children: [
-            { id: "coinmarketcap", name: "CoinMarketCap", link: "https://coinmarketcap.com" },
-            { id: "coingecko", name: "Coingecko", link: "https://coingecko.com" },
-          ]
-        },
-        { 
-          id: "blockchain-analyse", 
-          name: "Blockchain Analyse",
-          link: "",
-          children: [
-            { id: "bitinfocharts", name: "BitInfoCharts", link: "https://bitinfocharts.com/bitcoin/" },
-            { id: "mempool-space", name: "mempool.space", link: "https://mempool.space" },
-            { id: "bitnodes", name: "Bitnodes", link: "https://bitnodes.io/" },
-            { id: "glassnode", name: "Glassnode", link: "https://studio.glassnode.com/dashboards/btc-core-on-chain" },
-          ]
-        }
-      ]
-    },
-    {
-      id: "hardware",
-      name: "Hardware",
-      link: "",
-      children: [
-        { 
-          id: "mining", 
-          name: "Mining",
-          link: "",
-          children: [
-            { id: "bitaxe", name: "Bitaxe", link: "https://bitaxe.org/" },
-            { id: "braiins", name: "Braiins", link: "https://braiins.com/" },
-          ]
-        },
-        {
-          id: "nodes", 
-          name: "Nodes",
-          link: "",
-          children: [
-            { id: "umbrel", name: "Umbrel", link: "https://umbrel.com/" },
-            { id: "raspiblitz", name: "Raspiblitz", link: "https://github.com/raspiblitz/raspiblitz" },
-          ]
-        }
-      ]
-    },
-    {
-      id: "bildung-medien",
-      name: "Bildung & Medien",
-      link: "",
-      children: [
-        { 
-          id: "bildung", 
-          name: "Bildung",
-          link: "",
-          children: [
-            { id: "blocktrainer", name: "Blocktrainer", link: "https://blocktrainer.de" },
-            { id: "bitcoinverstehen", name: "Bitcoin verstehen", link: "https://bitcoinverstehen.info/" },
-            { id: "wasbitcoinbringt", name: "Was Bitcoin bringt", link: "https://www.wasbitcoinbringt.com/" },
-            { id: "derbitcoinpodcast", name: "Der Bitcoin Podcast", link: "https://www.youtube.com/@DerBitcoinPodcast" },
-            { id: "derhelper", name: "derHelper", link: "https://www.youtube.com/@derHelper"
-
-            }
-          ]
-        },
-        { 
-          id: "medien", 
-          name: "Medien",
-          link: "",
-          children: [
-            { id: "aprycotmedia", name: "Aprycot Media", link: "https://aprycot.media/" },
-          ]
-        }
-      ]
-    },
-    {
-      id: "dienstleistungen",
-      name: "Dienstleistungen & Tools",
-      link: "",
-      children: [
-        { 
-          id: "versicherung", 
-          name: "Versicherung",
-          link: "",
-          children: [
-            { id: "bitsurance", name: "Bitsurance", link: "https://www.bitsurance.eu/" },
-          ]
-        },
-        { 
-          id: "steuern", 
-          name: "Steuern",
-          link: "",
-          children: [
-            { id: "cointracking", name: "Cointracking", link: "https://cointracking.info/" },
-            { id: "blockpit", name: "Blockpit", link: "https://www.blockpit.io/" },
-          ]
-        },
-        { 
-          id: "kredite", 
-          name: "Kredite",
-          link: "",
-          children: [
-            { id: "firefish", name: "Firefish", link: "https://firefish.io/" },
-          ]
-        }
-      ]
-    },
-    {
-      id: "lightning",
-      name: "Lightning",
-      link: "",
-      children: [
-        { 
-          id: "lightning-wallets", 
-          name: "Wallets",
-          link: "",
-          children: [
-            { id: "walletofsatoshi", name: "Wallet of Satoshi", link: "https://www.walletofsatoshi.com/" },
-            { id: "breez", name: "Breez", link: "https://breez.technology/" },
-            { id: "phoenix", name: "Phoenix", link: "https://phoenix.acinq.co/" },
-            { id: "bluewallet", name: "BlueWallet", link: "https://bluewallet.io/" },
-          ]
-        }
-      ]
-    },
-    {
-      id: "markt",
-      name: "Mit Bitcoin zahlen",
-      link: "",
-      children: [
-        { 
-          id: "shops", 
-          name: "Shops",
-          link: "",
-          children: [
-            { id: "shopinbit", name: "ShopInBit", link: "https://shopinbit.com/" },
-            { id: "bitrefill", name: "Bitrefill", link: "https://www.bitrefill.com/" },
-          ]
-        },
-        { 
-          id: "hosting", 
-          name: "Hosting & Services",
-          link: "",
-          children: [
-            { id: "njalla", name: "Njalla", link: "https://njal.la/" },
-            { id: "tuta", name: "TutaMail", link: "https://tuta.com/de/support/payment#cryptocurrency" },
-            { id: "nextdns", name: "NextDNS", link: "https://nextdns.io/de" },
-          ]
-        },
-        { 
-          id: "spenden", 
-          name: "Spenden & Zahlungen",
-          link: "",
-          children: [
-            { id: "btcpayserver", name: "BTC Pay Server", link: "https://btcpayserver.org/" },
-            { id: "bitpay", name: "bitpay", link: "https://www.bitpay.com/" },
-          ]
-        }
-      ]
+  // Zusatzstyles
+  const style = document.createElement('style');
+  style.textContent = `
+    /* UI */
+    /* Regionen-Filter vorübergehend ausgeblendet - zum Einblenden einfach "display: none;" entfernen */
+    .filter-select { 
+      display: none; /* TODO: Entfernen zum Wieder-Einblenden */
+      margin-top: 10px; width: 100%; padding: 10px 36px 10px 12px; 
+      border: 1px solid #e6e6e6; border-radius: 10px; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06); font-size: 14px; background: #fff;
+      appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>');
+      background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+      transition: box-shadow .2s ease, border-color .2s ease;
     }
-  ]
-};
+    .filter-select:focus { outline: none; border-color: #f5b26a; box-shadow: 0 4px 14px rgba(247,147,26,0.18); }
 
-// Main visualization 
-const svg = d3.select("#bitcoin-ecosystem");
-const width = window.innerWidth;
-const height = window.innerHeight;
-const g = svg.append("g");
-const defs = svg.append("defs");
+    .detail-popup { position: fixed; right: 20px; top: 80px; width: 340px; max-height: calc(100vh - 120px); overflow: auto; 
+      background: #fff; border-radius: 12px; border: 1px solid #eee; 
+      box-shadow: 0 14px 30px rgba(0,0,0,0.14); padding: 16px 16px 14px; z-index: 30; }
+    .detail-popup .header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .detail-popup .header img { width: 22px; height: 22px; border-radius: 50%; flex: 0 0 22px; }
+    .detail-popup h3 { font-size: 16px; margin-bottom: 0; line-height: 1.2; }
+    .detail-popup p { font-size: 13px; color: #555; margin-bottom: 8px; line-height: 1.45; }
+    .detail-popup .meta { font-size: 12px; color: #777; margin-bottom: 12px; }
+    .detail-popup .actions { display: flex; justify-content: flex-end; gap: 8px; }
+    .detail-popup .btn { padding: 6px 10px; border-radius: 9px; border: 1px solid #ececec; background: #f7931a; color: #fff; font-weight: 600; font-size: 12.5px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .detail-popup .btn:hover { filter: brightness(0.98); }
+    .detail-popup .btn .icon { font-size: 10px; opacity: 0.9; line-height: 1; }
 
-// Add CSS styles for node shapes
-const style = document.createElement('style');
-style.textContent = `
-  .depth-0 circle {
-    fill: #f7931a;
-    stroke: #fff;
-    stroke-width: 2px;
-  }
-  
-  .depth-1 rect, .depth-2 rect {
-    fill: #fff;
-    stroke: #f7931a;
-    stroke-width: 2px;
-    rx: 4px;
-    ry: 4px;
-  }
-  
-  .depth-1 rect {
-    stroke-width: 3px;
-  }
-  
-  .depth-2 rect {
-    fill: #f4f4f4;
-    stroke: #555;
-  }
-  
-  .depth-3 circle {
-    fill: #fff;
-    stroke: #f7931a;
-    stroke-width: 1.5px;
-  }
-  
-  .node-inner-text {
-    text-anchor: middle;
-    dominant-baseline: middle;
-    pointer-events: none;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .depth-0 .node-inner-text {
-    fill: #fff;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  
-  .depth-1 .node-inner-text, .depth-2 .node-inner-text {
-    fill: #333;
-    font-weight: 600;
-    font-size: 12px;
-  }
-  
-  .depth-3 .node-inner-text {
-    fill: #333;
-    font-weight: 500;
-    font-size: 11px;
-  }
-  
-  .node-label {
-    text-anchor: middle;
-    font-size: 10px;
-    fill: #333;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    pointer-events: none;
-  }
-  
-  .node {
-    cursor: pointer;
-  }
-  
-  .node.highlighted circle, .node.highlighted rect {
-    filter: drop-shadow(0px 0px 6px rgba(247, 147, 26, 0.5));
-  }
-  
-  .link.highlighted {
-    stroke: #f7931a !important;
-    stroke-width: 2.5px !important;
-    opacity: 1 !important;
-  }
-`;
-document.head.appendChild(style);
+    /* Mobile-only Anpassungen */
+    @media (max-width: 640px) {
+      .search-container { left: 12px; top: 12px; width: calc(100% - 24px); }
+      .search-input { height: 40px; font-size: 15px; }
+      .filter-select { margin-top: 8px; height: 40px; font-size: 14px; }
+      .controls { display: none; }
 
-// Zoom behavior
-const zoom = d3.zoom()
-  .scaleExtent([0.1, 3])
-  .on("zoom", (event) => {
-    g.attr("transform", event.transform);
-  });
-
-svg.call(zoom);
-
-// Improved force simulation with better parameters
-const simulation = d3.forceSimulation()
-  .force("link", d3.forceLink().id(d => d.id).distance(d => {
-    return d.source.depth === 0 ? 280 :
-           d.source.depth === 1 ? 180 :
-           d.source.depth === 2 ? 140 : 120;
-  }))
-  .force("charge", d3.forceManyBody().strength(d => {
-    return d.depth === 0 ? -7000 :
-           d.depth === 1 ? -4000 :
-           d.depth === 2 ? -2000 : -1000;
-  }))
-  .force("center", d3.forceCenter(width / 2, height / 2))
-  .force("collide", d3.forceCollide(d => {
-    return d.depth === 0 ? 150 :
-           d.depth === 1 ? 120 :
-           d.depth === 2 ? 90 : 60; // Increased to accommodate labels
-  }).strength(1))
-  .force("x", d3.forceX(width / 2).strength(0.005))
-  .force("y", d3.forceY(height / 2).strength(0.005))
-  .alphaDecay(0.02);
-
-// Add custom clustering force to keep related nodes together
-simulation.force("cluster", forceCluster());
-
-// Custom clustering force
-function forceCluster() {
-  const strength = 0.15;
-  let nodes;
-
-  function force(alpha) {
-    const nodesByParent = {};
-    
-    nodes.forEach(node => {
-      if (node.parent) {
-        const parentId = node.parent.id;
-        if (!nodesByParent[parentId]) {
-          nodesByParent[parentId] = [];
-        }
-        nodesByParent[parentId].push(node);
+      /* Popup als Bottom-Sheet */
+      .detail-popup {
+        right: 0; left: 0; bottom: 0; top: auto; width: 100%; max-height: 52vh;
+        border-radius: 12px 12px 0 0; border: 1px solid #eee; padding: 14px 14px 18px;
       }
-    });
-    
-    Object.entries(nodesByParent).forEach(([parentId, children]) => {
-      const parent = nodes.find(n => n.id === parentId);
-      if (parent) {
-        const k = alpha * strength;
-        
-        let centroidX = 0, centroidY = 0;
-        children.forEach(child => {
-          centroidX += child.x;
-          centroidY += child.y;
-        });
-        centroidX /= children.length;
-        centroidY /= children.length;
-        
-        children.forEach(child => {
-          child.vx += (parent.x - child.x) * k;
-          child.vy += (parent.y - child.y) * k;
-          
-          child.vx += (centroidX - child.x) * k * 0.3;
-          child.vy += (centroidY - child.y) * k * 0.3;
-        });
-      }
-    });
-  }
-
-  force.initialize = function(_nodes) {
-    nodes = _nodes;
-  };
-
-  return force;
-}
-
-// Process hierarchical data
-const root = d3.hierarchy(bitcoinEcosystem);
-
-// Flatten data for force layout
-const nodes = flatten(root);
-const links = root.links();
-
-// Add link property to the flattened node data
-function flatten(root) {
-  const nodes = [];
-  
-  function recurse(node, depth = 0) {
-    if (node.children) {
-      node.children.forEach(child => recurse(child, depth + 1));
+      .detail-popup .header img { width: 20px; height: 20px; }
+      .detail-popup h3 { font-size: 15px; }
+      .detail-popup p { font-size: 13px; }
+      .detail-popup .btn { font-size: 12.5px; padding: 6px 10px; }
+      .detail-popup .btn .icon { font-size: 9px; }
     }
-    
-    if (node.data.id) {
-      node.id = node.data.id;
-      node.depth = depth;
-      node.name = node.data.name;
-      node.link = node.data.link;
-      nodes.push(node);
-    }
-  }
-  
-  recurse(root);
-  return nodes;
-}
 
-// Node distribution function
-function optimizeNodeDistribution() {
-  // Position and fix root node in center
-  const rootNode = nodes.find(n => n.depth === 0);
-  if (rootNode) {
-    rootNode.x = width / 2;
-    rootNode.y = height / 2;
-    rootNode.fx = width / 2;
-    rootNode.fy = height / 2;
-  }
-  
-  // Calculate optimal angles for first level to minimize crossings
-  const firstLevelNodesByChild = {};
-  nodes.forEach(node => {
-    if (node.depth === 1) {
-      const childCount = nodes.filter(n => n.parent && n.parent.id === node.id).length;
-      firstLevelNodesByChild[node.id] = childCount;
-    }
-  });
-  
-  // Sort first level nodes by number of children (descending)
-  const firstLevelNodes = nodes.filter(n => n.depth === 1)
-    .sort((a, b) => firstLevelNodesByChild[b.id] - firstLevelNodesByChild[a.id]);
-  
-  // Position first level nodes in a circle
-  if (firstLevelNodes.length > 0) {
-    // Organize first level in quadrants
-    const quadrants = [[], [], [], []]; // top-right, bottom-right, bottom-left, top-left
-    
-    firstLevelNodes.forEach((node, i) => {
-      quadrants[i % 4].push(node);
-    });
-    
-    // Place nodes in each quadrant
-    quadrants.forEach((nodes, quadIdx) => {
-      if (nodes.length === 0) return;
-      
-      const quadStartAngle = quadIdx * Math.PI/2;
-      const quadEndAngle = (quadIdx + 1) * Math.PI/2;
-      const angleStep = (quadEndAngle - quadStartAngle) / (nodes.length + 1);
-      
-      nodes.forEach((node, i) => {
-        const angle = quadStartAngle + angleStep * (i + 1);
-        const radius = 300;
-        
-        node.x = width/2 + radius * Math.cos(angle);
-        node.y = height/2 + radius * Math.sin(angle);
+    /* Node Shapes */
+    .depth-0 circle { fill: #f7931a; stroke: #fff; stroke-width: 2px; }
+    .depth-1 rect, .depth-2 rect { fill: #fff; stroke: #f7931a; stroke-width: 2px; rx: 4px; ry: 4px; }
+    .depth-1 rect { stroke-width: 3px; }
+    .depth-2 rect { fill: #f4f4f4; stroke: #555; }
+    .depth-3 circle { fill: #fff; stroke: #f7931a; stroke-width: 1.5px; }
+    .node-inner-text { text-anchor: middle; dominant-baseline: middle; pointer-events: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .depth-0 .node-inner-text { fill: #fff; font-weight: bold; font-size: 18px; }
+    .depth-1 .node-inner-text, .depth-2 .node-inner-text { fill: #333; font-weight: 600; font-size: 12px; }
+    .depth-3 .node-inner-text { fill: #333; font-weight: 500; font-size: 11px; }
+    .node-label { text-anchor: middle; font-size: 10px; fill: #333; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; pointer-events: none; }
+    .node.highlighted circle, .node.highlighted rect { filter: drop-shadow(0px 0px 6px rgba(247, 147, 26, 0.5)); }
+    .link.highlighted { stroke: #f7931a !important; stroke-width: 2.5px !important; opacity: 1 !important; }
+  `;
+  document.head.appendChild(style);
+
+  // Zoom
+  const zoom = d3.zoom().scaleExtent([0.1, 3]).on("zoom", (event) => { g.attr("transform", event.transform); });
+  svg.call(zoom);
+
+  // Simulation
+  const simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(d => d.id).distance(d => d.source.depth === 0 ? 280 : d.source.depth === 1 ? 180 : d.source.depth === 2 ? 140 : 120))
+    .force("charge", d3.forceManyBody().strength(d => d.depth === 0 ? -7000 : d.depth === 1 ? -4000 : d.depth === 2 ? -2000 : -1000))
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .force("collide", d3.forceCollide(d => d.depth === 0 ? 150 : d.depth === 1 ? 120 : d.depth === 2 ? 90 : 60).strength(1))
+    .force("x", d3.forceX(width / 2).strength(0.005))
+    .force("y", d3.forceY(height / 2).strength(0.005))
+    .alphaDecay(0.02);
+
+  simulation.force("cluster", forceCluster());
+  function forceCluster() {
+    const strength = 0.15; let nodes;
+    function force(alpha) {
+      const nodesByParent = {};
+      nodes.forEach(node => { if (node.parent) { const pid = node.parent.id; (nodesByParent[pid] ||= []).push(node); }});
+      Object.entries(nodesByParent).forEach(([pid, children]) => {
+        const parent = nodes.find(n => n.id === pid); if (!parent) return; const k = alpha * strength;
+        let cx = 0, cy = 0; children.forEach(c => { cx += c.x; cy += c.y; }); cx/=children.length; cy/=children.length;
+        children.forEach(c => { c.vx += (parent.x - c.x) * k; c.vy += (parent.y - c.y) * k; c.vx += (cx - c.x) * k * 0.3; c.vy += (cy - c.y) * k * 0.3; });
       });
-    });
-  }
-  
-  // Position level 2 nodes around their parents
-  nodes.filter(n => n.depth === 2).forEach(node => {
-    if (!node.parent) return;
-    
-    const siblings = nodes.filter(n => 
-      n.depth === 2 && n.parent && n.parent.id === node.parent.id
-    );
-    
-    const dx = node.parent.x - width/2;
-    const dy = node.parent.y - height/2;
-    const parentAngle = Math.atan2(dy, dx);
-    
-    const arcSize = Math.PI * 0.5;
-    const angleStep = arcSize / (siblings.length + 1);
-    
-    const startAngle = parentAngle - arcSize/2;
-    
-    const idx = siblings.findIndex(s => s.id === node.id);
-    
-    const angle = startAngle + angleStep * (idx + 1);
-    const radius = 140;
-    
-    node.x = node.parent.x + radius * Math.cos(angle);
-    node.y = node.parent.y + radius * Math.sin(angle);
-  });
-  
-  // Position level 3 nodes in tight groups around their parents
-  nodes.filter(n => n.depth === 3).forEach((node, i) => {
-    if (!node.parent) return;
-    
-    const siblings = nodes.filter(n => 
-      n.depth === 3 && n.parent && n.parent.id === node.parent.id
-    );
-    
-    const dx = node.parent.x - width/2;
-    const dy = node.parent.y - height/2;
-    const parentAngle = Math.atan2(dy, dx);
-    
-    const arcSize = Math.PI * 0.3;
-    const angleStep = arcSize / (siblings.length + 1);
-    
-    const startAngle = parentAngle - arcSize/2;
-    
-    const idx = siblings.findIndex(s => s.id === node.id);
-    
-    const angle = startAngle + angleStep * (idx + 1);
-    const radius = 100;
-    
-    node.x = node.parent.x + radius * Math.cos(angle);
-    node.y = node.parent.y + radius * Math.sin(angle);
-  });
-}
-
-// Create links
-const link = g.selectAll(".link")
-  .data(links)
-  .enter()
-  .append("line")
-  .attr("class", d => `link link-${d.source.id} link-${d.target.id}`)
-  .style("stroke", "#e0e0e0")
-  .style("stroke-width", "1.5px")
-  .style("opacity", 0.7);
-
-// Create nodes
-const node = g.selectAll(".node")
-  .data(nodes)
-  .enter()
-  .append("g")
-  .attr("class", d => `node depth-${d.depth}`)
-  .attr("id", d => `node-${d.id}`)
-  .style("cursor", "pointer")
-  .on("click", function(event, d) {
-    if (d.link) {
-      window.open(d.link, "_blank");
     }
-  })
-  .call(d3.drag()
-    .on("start", dragstarted)
-    .on("drag", dragged)
-    .on("end", dragended));
-
-// Calculate text width for nodes
-nodes.forEach(d => {
-  if (d.depth === 1 || d.depth === 2) {
-    const textLength = d.name.length;
-    const charWidth = 7; // Approximate width per character
-    const padding = 24; // Padding on both sides
-    const minWidth = 60; // Minimum width
-    
-    d.rectWidth = Math.max(minWidth, textLength * charWidth + padding);
-    d.rectHeight = 44; // Fixed height
+    force.initialize = function(_nodes){ nodes = _nodes; };
+    return force;
   }
-});
 
-// Add shapes to nodes
-node.each(function(d) {
-  const nodeSelection = d3.select(this);
-  
-  if (d.depth === 0 || d.depth === 3) {
-    // Circles for depth 0 and 3
-    const radius = d.depth === 0 ? 50 : 30;
-    nodeSelection.append("circle")
-      .attr("r", radius)
-      .attr("class", "node-shape");
-  } else {
-    // Rectangles for depth 1 and 2 with dynamic width
-    nodeSelection.append("rect")
-      .attr("width", d.rectWidth)
-      .attr("height", d.rectHeight)
-      .attr("x", -d.rectWidth / 2)
-      .attr("y", -d.rectHeight / 2)
-      .attr("class", "node-shape");
-  }
-});
-
-// Add hover effects to nodes
-node.on("mouseover", function(event, d) {
-  const currentNode = d3.select(this);
-  const nodeId = d.id;
-  
-  currentNode.classed("highlighted", true);
-  
-  link.classed("highlighted", function(l) {
-    if (l.source.id === nodeId || l.target.id === nodeId) {
-      const connectedId = l.source.id === nodeId ? l.target.id : l.source.id;
-      g.selectAll(`.node`).filter(n => n.id === connectedId)
-        .classed("highlighted", true);
-      return true;
-    }
-    return false;
-  });
-})
-.on("mouseout", function(event, d) {
-  g.selectAll(".highlighted").classed("highlighted", false);
-});
-
-// Define logos array
-const availableLogos = ["derhelper","braiins","nextdns","tuta","bitcoin", "ledger", "mempool-space", "bitbox", "relai", "coinfinity", "21bitcoin", "pocket", "trezor", "sparrow", "coldcard", "peachbitcoin", "bisq", "haveno", "hodlhodl", "kraken", "coinbase", "binance", "electrum", "wasabi", "bluewallet", "bitcoin-core", "bitcoinde", "bison", "umbrel", "raspiblitz", "coinmarketcap", "coingecko", "bitaxe", "bitinfocharts", "bitnodes", "glassnode", "robosats", "agoradesk", "blocktrainer", "aprycotmedia", "bitcoinverstehen", "wasbitcoinbringt", "bitsurance", "blockpit", "cointracking", "breez", "walletofsatoshi", "phoenix", "bitrefill", "shopinbit", "njalla", "proton", "btcpayserver", "firefish", "bitpay","derbitcoinpodcast", "seedsigner", "specterdiy", "bittr"];
-
-// Add content to nodes (logos or text)
-node.each(function(d) {
-  const nodeId = d.id;
-  const nodeSelection = d3.select(this);
-  
-  if (availableLogos.includes(nodeId)) {
-    // For nodes with logos
-    const clipPathId = `clip-${nodeId}`;
-    
-    if (d.depth === 0 || d.depth === 3) {
-      // Circular clip path
-      const radius = d.depth === 0 ? 50 : 30;
-      defs.append("clipPath")
-        .attr("id", clipPathId)
-        .append("circle")
-        .attr("r", radius);
-      
-      nodeSelection.append("image")
-        .attr("xlink:href", `assets/logos/${nodeId}.png`)
-        .attr("x", -radius)
-        .attr("y", -radius)
-        .attr("width", radius * 2)
-        .attr("height", radius * 2)
-        .attr("clip-path", `url(#${clipPathId})`)
-        .on("error", function() {
-          d3.select(this).remove();
-          addNodeText(nodeSelection, d);
+  // Fallback-Logo für Genesis, falls nicht in JSON gesetzt
+  if (!data.image) { data.image = 'assets/logos/bitcoin.png'; }
+  // Index der kanonischen Leaf-Services aufbauen (für Aliase via ref)
+  const serviceIndex = new Map();
+  (function buildIndex(node){
+    if (!node || !node.children) return;
+    for (const child of node.children){
+      if (child.children && child.children.length){
+        buildIndex(child);
+      } else if (child.id) {
+        serviceIndex.set(child.id, {
+          id: child.id,
+          name: child.name || '',
+          link: child.link || '',
+          image: child.image || '',
+          description: child.description || '',
+          region: child.region || ''
         });
-    } else {
-      // Rectangular clip path
-      defs.append("clipPath")
-        .attr("id", clipPathId)
-        .append("rect")
-        .attr("width", d.rectWidth)
-        .attr("height", d.rectHeight)
-        .attr("x", -d.rectWidth / 2)
-        .attr("y", -d.rectHeight / 2)
-        .attr("rx", 4)
-        .attr("ry", 4);
-      
-      nodeSelection.append("image")
-        .attr("xlink:href", `assets/logos/${nodeId}.png`)
-        .attr("x", -d.rectWidth / 2)
-        .attr("y", -d.rectHeight / 2)
-        .attr("width", d.rectWidth)
-        .attr("height", d.rectHeight)
-        .attr("clip-path", `url(#${clipPathId})`)
-        .on("error", function() {
-          d3.select(this).remove();
-          addNodeText(nodeSelection, d);
-        });
+      }
     }
-  } else {
-    // For nodes without logos
-    addNodeText(nodeSelection, d);
-  }
-  
-  // Add labels for depth 3 nodes
-  if (d.depth === 3) {
-    nodeSelection.append("text")
-      .attr("class", "node-label")
-      .attr("y", 42)  // Position below the node
-      .text(d.name);
-  }
-});
+  })(data);
 
-// Function to add text to nodes
-function addNodeText(nodeSelection, d) {
-  // Only add inner text for depths 0, 1, and 2
-  if (d.depth !== 3) {
-    nodeSelection.append("text")
-      .attr("class", "node-inner-text")
-      .text(d.name);
-  }
-}
+  const root = d3.hierarchy(data);
+  const nodes = flatten(root);
+  const links = root.links();
 
-// Run simulation warmup
-function warmupSimulation() {
-  // Keep root node fixed throughout
-  const rootNode = nodes.find(n => n.depth === 0);
-  if (rootNode) {
-    rootNode.fx = width / 2;
-    rootNode.fy = height / 2;
-  }
-  
-  // Set initial positions
-  optimizeNodeDistribution();
-  
-  // High-temperature phase for initial settling
-  simulation.alpha(1);
-  for (let i = 0; i < 100; ++i) {
-    simulation.tick();
-  }
-  
-  // Progressive cooldown phases
-  const alphaSteps = [0.5, 0.3, 0.1];
-  alphaSteps.forEach(alpha => {
-    simulation.alpha(alpha);
-    for (let i = 0; i < 50; ++i) {
-      simulation.tick();
+  function flatten(root) {
+    const list = [];
+    function walk(node, depth = 0) {
+      if (node.children) node.children.forEach(child => walk(child, depth + 1));
+      if (node.data && node.data.id) {
+        // Alias-Auflösung: wenn ref gesetzt ist, Daten aus Index übernehmen
+        const refId = node.data.ref;
+        const aliased = refId ? serviceIndex.get(refId) : null;
+        node.id = node.data.id; node.depth = depth;
+        node.name = (node.data.name ?? aliased?.name) || "";
+        node.link = (node.data.link ?? aliased?.link) || "";
+        node.image = (node.data.image ?? aliased?.image) || "";
+        node.description = (node.data.description ?? aliased?.description) || "";
+        node.region = (node.data.region ?? aliased?.region) || "";
+        list.push(node);
+      }
     }
+    walk(root); return list;
+  }
+
+  // Größen für Rechtecke berechnen (Depth 1/2)
+  nodes.forEach(d => { if (d.depth === 1 || d.depth === 2) { const textLength = d.name.length; const charWidth = 7; const padding = 24; const minWidth = 60; d.rectWidth = Math.max(minWidth, textLength * charWidth + padding); d.rectHeight = 44; }});
+
+  const link = g.selectAll(".link").data(links).enter().append("line").attr("class", d => `link link-${d.source.id} link-${d.target.id}`).style("stroke", "#e0e0e0").style("stroke-width", "1.5px").style("opacity", 0.7);
+
+  const node = g.selectAll(".node").data(nodes).enter().append("g").attr("class", d => `node depth-${d.depth}`).attr("id", d => `node-${d.id}`).style("cursor", d => (!d.children || d.children.length === 0) ? "pointer" : "default")
+    .on("click", function(event, d){
+      // Nur bei echten Services (Leaf-Knoten) Popup öffnen
+      if (d.children && d.children.length > 0) return;
+      event.stopPropagation();
+      openPopup(event, d);
+    })
+    .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended));
+
+  node.each(function(d){ const s = d3.select(this);
+    if (d.depth === 0 || d.depth === 3) { const r = d.depth === 0 ? 50 : 30; s.append("circle").attr("r", r).attr("class", "node-shape"); }
+    else { s.append("rect").attr("width", d.rectWidth).attr("height", d.rectHeight).attr("x", -d.rectWidth/2).attr("y", -d.rectHeight/2).attr("class", "node-shape"); }
   });
-  
-  // Update positions
-  ticked();
-}
 
-// Add entrance animations
-function addEntranceAnimations() {
-  // Animate links
-  link.style("opacity", 0)
-    .transition()
-    .delay((d, i) => 300 + i * 5)
-    .duration(800)
-    .style("opacity", 0.7);
-  
-  // Animate nodes
-  node.style("opacity", 0)
-    .attr("transform", d => `translate(${width/2},${height/2}) scale(0.1)`)
-    .transition()
-    .delay(d => d.depth * 200)
-    .duration(1000)
-    .style("opacity", 1)
-    .attrTween("transform", function(d) {
-      return function(t) {
-        const x = width/2 + (d.x - width/2) * t;
-        const y = height/2 + (d.y - height/2) * t;
-        const scale = 0.1 + t * 0.9;
-        return `translate(${x},${y}) scale(${scale})`;
-      };
-    });
-}
-
-// Reset zoom function
-function resetZoom() {
-  // Center on Bitcoin (root) node
-  const rootNode = nodes.find(n => n.depth === 0);
-  
-  // Calculate bounds of all nodes
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-  
-  nodes.forEach(node => {
-    minX = Math.min(minX, node.x);
-    maxX = Math.max(maxX, node.x);
-    minY = Math.min(minY, node.y);
-    maxY = Math.max(maxY, node.y);
+  // Inhalte (Logo aus JSON oder Text)
+  node.each(function(d){ const s = d3.select(this);
+    if (d.image) {
+      const clipId = `clip-${d.id}`;
+      if (d.depth === 0 || d.depth === 3) { const r = d.depth === 0 ? 50 : 30; defs.append("clipPath").attr("id", clipId).append("circle").attr("r", r);
+        s.append("image").attr("xlink:href", d.image).attr("x", -r).attr("y", -r).attr("width", r*2).attr("height", r*2).attr("clip-path", `url(#${clipId})`).on("error", function(){ d3.select(this).remove(); addNodeText(s, d); });
+      } else { defs.append("clipPath").attr("id", clipId).append("rect").attr("width", d.rectWidth).attr("height", d.rectHeight).attr("x", -d.rectWidth/2).attr("y", -d.rectHeight/2).attr("rx", 4).attr("ry", 4);
+        s.append("image").attr("xlink:href", d.image).attr("x", -d.rectWidth/2).attr("y", -d.rectHeight/2).attr("width", d.rectWidth).attr("height", d.rectHeight).attr("clip-path", `url(#${clipId})`).on("error", function(){ d3.select(this).remove(); addNodeText(s, d); });
+      }
+    } else { addNodeText(s, d); }
+    if (d.depth === 3) { s.append("text").attr("class", "node-label").attr("x", 0).attr("y", 42).attr("text-anchor", "middle").text(d.name); }
   });
-  
-  // Add padding
-  const padding = 50;
-  minX -= padding;
-  maxX += padding;
-  minY -= padding;
-  maxY += padding;
-  
-  // Calculate required scale to fit all nodes
-  const graphWidth = maxX - minX;
-  const graphHeight = maxY - minY;
-  const scaleX = width / graphWidth;
-  const scaleY = height / graphHeight;
-  const scale = Math.min(scaleX, scaleY, 1) * 0.9;
-  
-  // Apply transformation centered on root node
-  svg.transition()
-    .duration(800)
-    .call(
-      zoom.transform,
-      d3.zoomIdentity
-        .translate(width / 2, height / 2)
-        .scale(scale)
-        .translate(-rootNode.x, -rootNode.y)
-    );
-}
 
-// Initialize visualization
-function initVisualization() {
+  function addNodeText(sel, d){ if (d.depth !== 3) sel.append("text").attr("class", "node-inner-text").text(d.name); }
+
+  // Hover Highlight
+  node.on("mouseover", function(event, d){ const current = d3.select(this); const id = d.id; current.classed("highlighted", true); link.classed("highlighted", function(l){ if (l.source.id === id || l.target.id === id){ const connectedId = l.source.id === id ? l.target.id : l.source.id; g.selectAll('.node').filter(n => n.id === connectedId).classed("highlighted", true); return true; } return false; }); })
+      .on("mouseout", function(){ g.selectAll(".highlighted").classed("highlighted", false); });
+
+  // Layout initialisieren (erst Simulation mit Nodes verbinden, dann warmup)
+  simulation.nodes(nodes).on("tick", ticked);
+  simulation.force("link").links(links);
   optimizeNodeDistribution();
   warmupSimulation();
-  
-  // Start simulation
-  simulation
-    .nodes(nodes)
-    .on("tick", ticked);
-
-  simulation.force("link")
-    .links(links);
-    
-  // Center the view initially after animation
+  // Nach dem Warmup direkt beruhigen, damit Startzustand stabil ist
+  simulation.alpha(0);
   setTimeout(resetZoom, 2000);
-  
-  // Start entrance animations after setup
   addEntranceAnimations();
-}
 
-// Ticked function
-function ticked() {
-  // Keep root node fixed at center
-  const rootNode = nodes.find(n => n.depth === 0);
-  if (rootNode) {
-    rootNode.x = width / 2;
-    rootNode.y = height / 2;
+  function optimizeNodeDistribution(){ const rootNode = nodes.find(n => n.depth === 0); if (rootNode){ rootNode.x = width/2; rootNode.y = height/2; rootNode.fx = width/2; rootNode.fy = height/2; }
+    const childCounts = {}; nodes.forEach(n => { if (n.depth === 1){ childCounts[n.id] = nodes.filter(x => x.parent && x.parent.id === n.id).length; } });
+    const level1 = nodes.filter(n => n.depth === 1).sort((a,b)=>childCounts[b.id]-childCounts[a.id]);
+    if (level1.length){ const quads = [[],[],[],[]]; level1.forEach((n,i)=>{ quads[i%4].push(n); }); quads.forEach((arr,qi)=>{ if (!arr.length) return; const a0 = qi*Math.PI/2; const a1 = (qi+1)*Math.PI/2; const step = (a1-a0)/(arr.length+1); arr.forEach((n,i)=>{ const a=a0+step*(i+1); const r=300; n.x=width/2+r*Math.cos(a); n.y=height/2+r*Math.sin(a); }); }); }
+    nodes.filter(n=>n.depth===2).forEach(n=>{ if(!n.parent) return; const sib = nodes.filter(x=>x.depth===2 && x.parent && x.parent.id===n.parent.id); const dx=n.parent.x-width/2, dy=n.parent.y-height/2; const pa=Math.atan2(dy,dx); const arc=Math.PI*0.5; const step=arc/(sib.length+1); const start=pa-arc/2; const idx=sib.findIndex(s=>s.id===n.id); const a=start+step*(idx+1); const r=140; n.x=n.parent.x+r*Math.cos(a); n.y=n.parent.y+r*Math.sin(a); });
+    nodes.filter(n=>n.depth===3).forEach(n=>{ if(!n.parent) return; const sib = nodes.filter(x=>x.depth===3 && x.parent && x.parent.id===n.parent.id); const dx=n.parent.x-width/2, dy=n.parent.y-height/2; const pa=Math.atan2(dy,dx); const arc=Math.PI*0.3; const step=arc/(sib.length+1); const start=pa-arc/2; const idx=sib.findIndex(s=>s.id===n.id); const a=start+step*(idx+1); const r=100; n.x=n.parent.x+r*Math.cos(a); n.y=n.parent.y+r*Math.sin(a); }); }
+
+  function warmupSimulation(){ const rootNode = nodes.find(n => n.depth === 0); if (rootNode){ rootNode.fx = width/2; rootNode.fy = height/2; } optimizeNodeDistribution(); simulation.alpha(1); for(let i=0;i<100;i++){ simulation.tick(); } [0.5,0.3,0.1].forEach(a=>{ simulation.alpha(a); for(let i=0;i<50;i++){ simulation.tick(); } }); ticked(); }
+  function addEntranceAnimations(){ link.style("opacity",0).transition().delay((d,i)=>300+i*5).duration(800).style("opacity",0.7); node.style("opacity",0).attr("transform", d=>`translate(${width/2},${height/2}) scale(0.1)`).transition().delay(d=>d.depth*200).duration(1000).style("opacity",1).attrTween("transform", function(d){ return t=>{ const x=width/2+(d.x-width/2)*t; const y=height/2+(d.y-height/2)*t; const s=0.1+t*0.9; return `translate(${x},${y}) scale(${s})`; }; }); }
+  function resetZoom(){ const rootNode = nodes.find(n=>n.depth===0); let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity; nodes.forEach(n=>{ minX=Math.min(minX,n.x); maxX=Math.max(maxX,n.x); minY=Math.min(minY,n.y); maxY=Math.max(maxY,n.y); }); const pad=50; minX-=pad; maxX+=pad; minY-=pad; maxY+=pad; const gw=maxX-minX, gh=maxY-minY; const s=Math.min(width/gw, height/gh, 1)*0.9; svg.transition().duration(800).call(zoom.transform, d3.zoomIdentity.translate(width/2,height/2).scale(s).translate(-rootNode.x,-rootNode.y)); }
+  function ticked(){ const rootNode = nodes.find(n=>n.depth===0); if(rootNode){ rootNode.x=width/2; rootNode.y=height/2; } link.attr("x1", d=>d.source.x).attr("y1", d=>d.source.y).attr("x2", d=>d.target.x).attr("y2", d=>d.target.y); g.selectAll('.node').attr("transform", d=>`translate(${d.x},${d.y})`); }
+  function dragstarted(event,d){ if(d.depth===0) return; if(!event.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; }
+  function dragged(event,d){ if(d.depth===0) return; d.fx=event.x; d.fy=event.y; }
+  function dragended(event,d){ if(d.depth===0) return; if(!event.active) simulation.alphaTarget(0); d.fx=null; d.fy=null; }
+
+  // Zoom-Buttons
+  function initZoomControls(){
+    document.getElementById("zoom-in").replaceWith(document.getElementById("zoom-in").cloneNode(true));
+    document.getElementById("zoom-out").replaceWith(document.getElementById("zoom-out").cloneNode(true));
+    document.getElementById("reset").replaceWith(document.getElementById("reset").cloneNode(true));
+    document.getElementById("zoom-in").addEventListener("click",()=>{ svg.transition().duration(300).call(zoom.scaleBy,1.3); });
+    document.getElementById("zoom-out").addEventListener("click",()=>{ svg.transition().duration(300).call(zoom.scaleBy,0.7); });
+    document.getElementById("reset").addEventListener("click", resetZoom);
   }
-  
-  link
-    .attr("x1", d => d.source.x)
-    .attr("y1", d => d.source.y)
-    .attr("x2", d => d.target.x)
-    .attr("y2", d => d.target.y);
-  
-  g.selectAll(".node")
-    .attr("transform", d => `translate(${d.x},${d.y})`);
-}
-
-// Helper functions for dragging
-function dragstarted(event, d) {
-  if (d.depth === 0) return; // Prevent dragging root node
-  if (!event.active) simulation.alphaTarget(0.3).restart();
-  d.fx = d.x;
-  d.fy = d.y;
-}
-
-function dragged(event, d) {
-  if (d.depth === 0) return; // Prevent dragging root node
-  d.fx = event.x;
-  d.fy = event.y;
-}
-
-function dragended(event, d) {
-  if (d.depth === 0) return; // Prevent dragging root node
-  if (!event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
-}
-
-// Initialize zoom buttons
-function initZoomControls() {
-  // Clear any existing listeners
-  document.getElementById("zoom-in").replaceWith(document.getElementById("zoom-in").cloneNode(true));
-  document.getElementById("zoom-out").replaceWith(document.getElementById("zoom-out").cloneNode(true));
-  document.getElementById("reset").replaceWith(document.getElementById("reset").cloneNode(true));
-  
-  // Zoom in button
-  document.getElementById("zoom-in").addEventListener("click", () => {
-    svg.transition()
-      .duration(300)
-      .call(zoom.scaleBy, 1.3);
-  });
-  
-  // Zoom out button
-  document.getElementById("zoom-out").addEventListener("click", () => {
-    svg.transition()
-      .duration(300)
-      .call(zoom.scaleBy, 0.7);
-  });
-  
-  // Reset button
-  document.getElementById("reset").addEventListener("click", resetZoom);
-}
-
-// Initialize zoom controls
-initZoomControls();
-
-// Search functionality
-document.querySelector(".search-input").addEventListener("input", function() {
-  const searchTerm = this.value.toLowerCase();
-  
-  if (searchTerm === "") {
-    node.style("opacity", 1);
-    link.style("opacity", 1);
-    return;
-  }
-  
-  const matchedNodes = new Set();
-  
-  // Find matching nodes and their ancestors
-  nodes.forEach(n => {
-    if (n.name.toLowerCase().includes(searchTerm)) {
-      matchedNodes.add(n);
-      
-      // Add all ancestors
-      let ancestor = n.parent;
-      while (ancestor) {
-        matchedNodes.add(ancestor);
-        ancestor = ancestor.parent;
-      }
-    }
-  });
-  
-  // Highlight matching nodes and dim others
-  node.style("opacity", d => matchedNodes.has(d) ? 1 : 0.2);
-  
-  // Highlight links connecting matched nodes
-  link.style("opacity", d => 
-    matchedNodes.has(d.source) && matchedNodes.has(d.target) ? 1 : 0.1
-  );
-});
-
-// Window resize handler
-window.addEventListener("resize", () => {
-  const newWidth = window.innerWidth;
-  const newHeight = window.innerHeight;
-  
-  // Keep root node centered on resize
-  const rootNode = nodes.find(n => n.depth === 0);
-  if (rootNode) {
-    rootNode.fx = newWidth / 2;
-    rootNode.fy = newHeight / 2;
-  }
-  
-  // Update simulation center force
-  simulation
-    .force("center", d3.forceCenter(newWidth / 2, newHeight / 2))
-    .alpha(0.3)
-    .restart();
-  
-  // Update zoom controls for new dimensions
   initZoomControls();
-});
 
-// Add credit in bottom right corner
-const footer = document.createElement('div');
-footer.style.cssText = `
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: white;
-  padding: 8px 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  font-size: 12px;
-  z-index: 10;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-`;
+  // Suche + Regionsfilter kombinieren
+  const searchInput = document.querySelector('.search-input');
+  const regionSelect = document.querySelector('.filter-select');
+  searchInput.addEventListener('input', applyFilters);
+  regionSelect.addEventListener('change', applyFilters);
 
-footer.innerHTML = 'Made with ❤️ by <a href="https://twitter.com/miotares" target="_blank" style="color: #1DA1F2; text-decoration: none; font-weight: 600;">@miotares</a>';
-document.querySelector('.container').appendChild(footer);
+  function applyFilters(){
+    const term = searchInput.value.toLowerCase();
+    const region = regionSelect.value;
+    const matched = new Set();
+    nodes.forEach(n => {
+      const isLeaf = !n.children || n.children.length === 0;
+      const nameMatch = n.name.toLowerCase().includes(term);
+      const regionMatch = !region || (n.region || '') === region || (!isLeaf && term !== '');
+      if ((term === '' && region === '' && isLeaf) || (nameMatch || regionMatch)) {
+        if (isLeaf && (region === '' || (n.region || '') === region) && (term === '' || nameMatch)) {
+          matched.add(n);
+          let a = n.parent; while(a){ matched.add(a); a = a.parent; }
+        }
+      }
+    });
+    if (term === '' && region === '') { node.style('opacity',1); link.style('opacity',1); return; }
+    node.style('opacity', d => matched.has(d) ? 1 : 0.15);
+    link.style('opacity', d => matched.has(d.source) && matched.has(d.target) ? 1 : 0.05);
+  }
 
-// Initialize the visualization
-initVisualization();
+  // Popup bei Klick: fixiertes Panel rechts, schließt bei Außenklick
+  let popupEl = null;
+  function openPopup(event, d){
+    if (!popupEl) {
+      popupEl = document.createElement('div');
+      popupEl.className = 'detail-popup';
+      document.body.appendChild(popupEl);
+      popupEl.addEventListener('click', (e)=> e.stopPropagation());
+      document.addEventListener('click', onDocClick);
+    }
+    popupEl.innerHTML = `
+      <div class="header">
+        ${d.image ? `<img src="${d.image}" alt="${d.name}">` : ''}
+        <h3>${d.name}</h3>
+      </div>
+      ${d.description ? `<p>${d.description}</p>` : ''}
+      <div class="meta">${d.region ? `Region: ${d.region}` : ''}</div>
+      <div class="actions">${d.link ? `<a class="btn" href="${d.link}" target="_blank" rel="noopener">Zum Service <span class="icon" aria-hidden="true">↗</span></a>` : ''}</div>
+    `;
+  }
+  function closePopup(){ if(popupEl){ popupEl.remove(); popupEl = null; document.removeEventListener('click', onDocClick); }}
+  function onDocClick(){ closePopup(); }
+
+  // Resize-Handling
+  window.addEventListener('resize', ()=>{ const nw = window.innerWidth; const nh = window.innerHeight; const rootNode = nodes.find(n=>n.depth===0); if(rootNode){ rootNode.fx = nw/2; rootNode.fy = nh/2; } simulation.force('center', d3.forceCenter(nw/2, nh/2)).alpha(0.3).restart(); initZoomControls(); });
+
+  // Footer
+  const footer = document.createElement('div'); footer.style.cssText = `position:absolute; bottom:20px; right:20px; background:white; padding:8px 15px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); font-size:12px; z-index:10; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;`; footer.innerHTML = 'Made with ❤️ by <a href="https://twitter.com/miotares" target="_blank" style="color: #1DA1F2; text-decoration: none; font-weight: 600;">@miotares</a> · <a href="https://miotares.com" target="_blank" style="color: #1DA1F2; text-decoration: none; font-weight: 600;">More projects</a>'; document.querySelector('.container').appendChild(footer);
+})();
   </script>
 </body>
 </html>

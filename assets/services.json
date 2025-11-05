@@ -1,0 +1,313 @@
+{
+  "id": "bitcoin",
+  "name": "Bitcoin",
+  "link": "https://bitcoin.org",
+  "children": [
+    {
+      "id": "wallets",
+      "name": "Wallets",
+      "link": "",
+      "children": [
+        {
+          "id": "hardware-wallets",
+          "name": "Hardware-Wallets",
+          "link": "",
+          "children": [
+            { "id": "trezor", "name": "Trezor", "link": "https://trezor.io", "image": "assets/logos/trezor.png", "description": "Hardware-Wallet von SatoshiLabs. Unterstützt Multisig, Passphrase und umfangreiche Sicherheitsfeatures.", "region": "International" },
+            { "id": "bitbox", "name": "BitBox", "link": "https://shiftcrypto.ch", "image": "assets/logos/bitbox.png", "description": "Schweizer Hardware-Wallet von Shift Crypto. Fokus auf Usability, Open Source und solide Backups.", "region": "Europa" },
+            { "id": "coldcard", "name": "ColdCard", "link": "https://coldcard.com", "image": "assets/logos/coldcard.png", "description": "Air-Gapped Bitcoin Hardware-Wallet. Für maximale Sicherheit mit PSBT-Workflow und fortgeschrittenen Optionen.", "region": "International" },
+            { "id": "ledger", "name": "Ledger", "link": "https://www.ledger.com", "image": "assets/logos/ledger.png", "description": "Hardware-Wallet Plattform. Große App-Auswahl und breites Ökosystem für Einsteiger.", "region": "International" },
+            { "id": "seedsigner", "name": "SeedSigner", "link": "https://seedsigner.com/", "image": "assets/logos/seedsigner.png", "description": "DIY Bitcoin Signing Device. Baut auf günstiger Hardware auf und fördert Souveränität.", "region": "International" },
+            { "id": "specterdiy", "name": "SpecterDIY", "link": "https://specter.solutions/hardware", "image": "assets/logos/specterdiy.png", "description": "DIY Hardware-Wallet. Flexibel, erweiterbar und ideal für Lernzwecke.", "region": "International" },
+            { "id": "blockstream-jade", "name": "Blockstream Jade", "link": "https://blockstream.com/jade/", "image": "assets/logos/blockstream-jade.png", "description": "Offene Hardware-Wallet mit integriertem QR-Support und PSBT.", "region": "International" },
+            { "id": "keystone", "name": "Keystone Wallet", "link": "https://keyst.one/", "image": "assets/logos/keystone.png", "description": "Air-gapped Hardware-Wallet mit QR-Workflow und Multisig-Fokus.", "region": "International" },
+            { "id": "foundation", "name": "Foundation Passport", "link": "https://foundation.xyz/passport", "image": "assets/logos/foundation.png", "description": "Bitcoin-first Hardware-Wallet (Passport) mit starkem Fokus auf Souveränität.", "region": "International" }
+          ]
+        },
+        {
+          "id": "software-wallets",
+          "name": "Software-Wallets",
+          "link": "",
+          "children": [
+            { "id": "electrum", "name": "Electrum", "link": "https://electrum.org", "image": "assets/logos/electrum.png", "description": "Leichte Bitcoin Wallet. Sehr schnell, funktionsreich und ideal für Fortgeschrittene.", "region": "International" },
+            { "id": "bitcoin-core", "name": "Bitcoin Core", "link": "https://bitcoincore.org", "image": "assets/logos/bitcoin-core.png", "description": "Referenz-Client und Full Node. Höchste Sicherheit und vollständige Validierung der Blockchain.", "region": "International" },
+            { "id": "sparrow", "name": "Sparrow", "link": "https://sparrowwallet.com", "image": "assets/logos/sparrow.png", "description": "Desktop-Wallet für Power-User. Unterstützt Multisig, Hardware-Wallets und detaillierte Coin-Control.", "region": "International" },
+            { "id": "wasabi", "name": "Wasabi", "link": "https://wasabiwallet.io", "image": "assets/logos/wasabi.png", "description": "Privacy-fokussierte Wallet. CoinJoin-Integration für mehr Anonymität beim Senden und Empfangen.", "region": "International" },
+            { "id": "bluewallet", "name": "BlueWallet", "link": "https://bluewallet.io/", "image": "assets/logos/bluewallet.png", "description": "Mobile Wallet mit Lightning. Intuitiv und ideal für unterwegs.", "region": "International" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bitcoin-kaufen",
+      "name": "Bitcoin kaufen",
+      "link": "",
+      "children": [
+        {
+          "id": "borsen",
+          "name": "CEX",
+          "link": "",
+          "children": [
+            { "id": "coinbase", "name": "Coinbase", "link": "https://www.coinbase.com", "image": "assets/logos/coinbase.png", "description": "Börse. Einsteigerfreundlich mit einfacher Verifizierung und Mobile-App.", "region": "International" },
+            { "id": "kraken", "name": "Kraken", "link": "https://www.kraken.com", "image": "assets/logos/kraken.png", "description": "Börse. Bekannt für Sicherheit, Support und gutes Order-Interface.", "region": "International" },
+            { "id": "binance", "name": "Binance", "link": "https://www.binance.com", "image": "assets/logos/binance.png", "description": "Börse. Sehr hohe Liquidität und große Asset-Auswahl.", "region": "International" },
+            { "id": "bison", "name": "Bison", "link": "https://bisonapp.com/", "image": "assets/logos/bison.png", "description": "Börse der Börse Stuttgart. Deutsche App mit einfacher Bedienung.", "region": "Deutschland" }
+          ]
+        },
+        {
+          "id": "direkt-auf-die-wallet",
+          "name": "Non-Custodial",
+          "link": "#",
+          "children": [
+            { "id": "coinfinity", "name": "Coinfinity", "link": "https://coinfinity.co", "image": "assets/logos/coinfinity.png", "description": "Broker aus Österreich. Bekannt für kompetenten Support und Bitcoin-only Fokus.", "region": "DACH" },
+            { "id": "relai", "name": "Relai", "link": "https://relai.app", "image": "assets/logos/relai.png", "description": "Schweizer Bitcoin-App. KYC-light DCA mit einfacher SEPA-Abwicklung.", "region": "Europa" },
+            { "id": "21bitcoin", "name": "21Bitcoin", "link": "https://21bitcoin.app", "image": "assets/logos/21bitcoin.png", "description": "Broker aus Österreich. Moderne App mit Sparplan und Kauf auf Rechnung.", "region": "DACH" },
+            { "id": "pocket", "name": "Pocket", "link": "https://pocketbitcoin.com", "image": "assets/logos/pocket.png", "description": "DCA-Broker aus CH. Bitcoin direkt in die eigene Wallet ohne Verwahrung.", "region": "Europa" },
+            { "id": "bittr", "name": "Bittr", "link": "https://getbittr.com/", "image": "assets/logos/bittr.png", "description": "Einfache Einzahlungen. Minimalistisch und schnell für wiederkehrende Käufe.", "region": "Europa" },
+            { "id": "strike", "name": "Strike", "link": "https://strike.me/", "image": "assets/logos/strike.png", "description": "Lightning-Zahlungen und Kauf von Bitcoin mit Fokus auf niedrige Gebühren.", "region": "International" }
+          ]
+        },
+        {
+          "id": "p2p",
+          "name": "P2P/DEX",
+          "link": "",
+          "children": [
+            { "id": "hodlhodl", "name": "HodlHodl", "link": "https://hodlhodl.com", "image": "assets/logos/hodlhodl.png", "description": "P2P-Marktplatz. Escrow-basiert, ohne KYC, global nutzbar.", "region": "International" },
+            { "id": "peachbitcoin", "name": "PeachBitcoin", "link": "https://peachbitcoin.com", "image": "assets/logos/peachbitcoin.png", "description": "P2P-App. Mobile-first mit Fokus auf einfache Bedienung.", "region": "Europa" },
+            { "id": "bisq", "name": "Bisq", "link": "https://bisq.network", "image": "assets/logos/bisq.png", "description": "Dezentrale Börse. Peer-to-Peer, zensurresistent und ohne zentrale Verwahrung.", "region": "International" },
+            { "id": "haveno", "name": "Haveno", "link": "https://haveno.exchange", "image": "assets/logos/haveno.png", "description": "DEX im Aufbau. Community-getriebenes Projekt mit Privacy-Fokus.", "region": "International" },
+            { "id": "bitcoinde", "name": "Bitcoin.de", "link": "https://www.bitcoin.de/de", "image": "assets/logos/bitcoinde.png", "description": "Deutscher Marktplatz. Lange am Markt, SEPA-Anbindung und Fidor-Integration.", "region": "Deutschland" },
+            { "id": "robosats", "name": "Robosats", "link": "https://github.com/RoboSats/robosats", "image": "assets/logos/robosats.png", "description": "Lightning-P2P. Schnelle, pseudonyme Trades über LN-Invoices.", "region": "International" }
+            
+          ]
+        }
+      ]
+    },
+    {
+      "id": "markt-data",
+      "name": "Daten",
+      "link": "",
+      "children": [
+        {
+          "id": "preisdaten",
+          "name": "Preisdaten",
+          "link": "",
+          "children": [
+            { "id": "coinmarketcap", "name": "CoinMarketCap", "link": "https://coinmarketcap.com", "image": "assets/logos/coinmarketcap.png", "description": "Marktdaten. Preise, Volumina und historische Charts für tausende Assets.", "region": "International" },
+            { "id": "coingecko", "name": "Coingecko", "link": "https://coingecko.com", "image": "assets/logos/coingecko.png", "description": "Marktdaten. Umfangreiche Marktübersichten und On-Chain-Metriken.", "region": "International" }
+          ]
+        },
+        {
+          "id": "blockchain-analyse",
+          "name": "Blockchain Analyse",
+          "link": "",
+          "children": [
+            { "id": "bitinfocharts", "name": "BitInfoCharts", "link": "https://bitinfocharts.com/bitcoin/", "image": "assets/logos/bitinfocharts.png", "description": "On-Chain Daten. Viele Kennzahlen zu Adressen, Transaktionen und Gebühren.", "region": "International" },
+            { "id": "mempool-space", "name": "mempool.space", "link": "https://mempool.space", "image": "assets/logos/mempool-space.png", "description": "Mempool Explorer. Visualisiert Gebühren, Blöcke und Transaktionsstatus in Echtzeit.", "region": "International" },
+            { "id": "bitnodes", "name": "Bitnodes", "link": "https://bitnodes.io/", "image": "assets/logos/bitnodes.png", "description": "Node Statistik. Weltweite Verteilung und Erreichbarkeit von Full Nodes.", "region": "International" },
+            { "id": "glassnode", "name": "Glassnode", "link": "https://studio.glassnode.com/dashboards/btc-core-on-chain", "image": "assets/logos/glassnode.png", "description": "On-Chain Analytics. Detaillierte Metriken für Markt- und Netzwerkanalysen.", "region": "International" },
+            { "id": "bitcoin-insight", "name": "Bitcoin Insight", "link": "https://apps.apple.com/de/app/bitcoin-insight/id6753660088", "image": "assets/logos/bitcoininsight.jpg", "description": "iOS-App für schnelle Mempool-Insights: Fees, Blöcke, Warteschlange.", "region": "International" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hardware",
+      "name": "Hardware",
+      "link": "",
+      "children": [
+        {
+          "id": "mining",
+          "name": "Mining",
+          "link": "",
+          "children": [
+            { "id": "bitaxe", "name": "Bitaxe", "link": "https://bitaxe.org/", "image": "assets/logos/bitaxe.png", "description": "Open-Source Miner. Selbstbau-Projekt mit aktiver Community.", "region": "International" },
+            { "id": "braiins", "name": "Braiins", "link": "https://braiins.com/", "image": "assets/logos/braiins.png", "description": "Mining Software & Pool. Open-Source Firmware und professionelles Pooling.", "region": "International" },
+            { "id": "nerdminer", "name": "Nerdminer", "link": "https://nerdminer.de/", "image": "assets/logos/nerdminer.png", "description": "Community-Hardwareprojekt zum Lernen von Mining und PoW.", "region": "International" }
+          ]
+        },
+        {
+          "id": "nodes",
+          "name": "Nodes",
+          "link": "",
+          "children": [
+            { "id": "umbrel", "name": "Umbrel", "link": "https://umbrel.com/", "image": "assets/logos/umbrel.png", "description": "Node OS. App-Store mit vielen Bitcoin- und Lightning-Anwendungen.", "region": "International" },
+            { "id": "raspiblitz", "name": "Raspiblitz", "link": "https://github.com/raspiblitz/raspiblitz", "image": "assets/logos/raspiblitz.png", "description": "DIY Node. Setups für Raspberry Pi mit Fokus auf Transparenz und Kontrolle.", "region": "International" },
+            { "id": "start9labs", "name": "Start9 Labs", "link": "https://start9.com/", "image": "assets/logos/start9labs.png", "description": "Sovereign Computing. Selbst gehostete Services mit Fokus auf Privatsphäre.", "region": "International" },
+            { "id": "servingbitcoin", "name": "Serving Bitcoin", "link": "https://servingbitcoin.com/", "image": "assets/logos/servingbitcoin.png", "description": "Ressourcen & Services für Nodes und Selbst-Hosting.", "region": "International" },
+            { "id": "mynodebtc", "name": "myNode", "link": "https://mynodebtc.com/", "image": "assets/logos/mynode.png", "description": "Node OS mit One-Click-Apps für Bitcoin und Lightning.", "region": "International" },
+            { "id": "ministryofnodes", "name": "Ministry of Nodes", "link": "https://www.ministryofnodes.com.au/", "image": "assets/logos/ministryofnodes.png", "description": "Bildung & Beratung für Selbstverwahrung und Node-Betrieb.", "region": "International" },
+            { "id": "nodl", "name": "Nodl", "link": "https://www.nodl.it/", "image": "assets/logos/nodl.png", "description": "Plug-and-Play Bitcoin & Lightning Node.", "region": "International" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bildung-medien",
+      "name": "Bildung & Medien",
+      "link": "",
+      "children": [
+        {
+          "id": "bildung",
+          "name": "Bildung",
+          "link": "",
+          "children": [
+            { "id": "blocktrainer", "name": "Blocktrainer", "link": "https://blocktrainer.de", "image": "assets/logos/blocktrainer.png", "description": "Bildungsplattform. Artikel, Videos und Community rund um Bitcoin.", "region": "Deutschland" },
+            { "id": "bitcoinverstehen", "name": "Bitcoin verstehen", "link": "https://bitcoinverstehen.info/", "image": "assets/logos/bitcoinverstehen.png", "description": "Podcast. Grundlagen, Interviews und praktische Tipps auf Deutsch.", "region": "DACH" },
+            { "id": "wasbitcoinbringt", "name": "Was Bitcoin bringt", "link": "https://www.wasbitcoinbringt.com/", "image": "assets/logos/wasbitcoinbringt.png", "description": "Podcast. Österreichischer Fokus mit ökonomischen und gesellschaftlichen Themen.", "region": "DACH" },
+            { "id": "derbitcoinpodcast", "name": "Der Bitcoin Podcast", "link": "https://www.youtube.com/@DerBitcoinPodcast", "image": "assets/logos/derbitcoinpodcast.png", "description": "YouTube Podcast. Aktuelle Diskussionen und Interviews aus der DACH-Community.", "region": "Deutschland" },
+            { "id": "derhelper", "name": "derHelper", "link": "https://www.youtube.com/@derHelper", "image": "assets/logos/derhelper.png", "description": "YouTube Kanal. Tutorials und Erklärungen zu Wallets, Nodes und Tools.", "region": "DACH" },
+            { "id": "bitcoin-bundesverband", "name": "Bitcoin Bundesverband", "link": "https://x.com/btcverband", "image": "assets/logos/bitcoin-bundesverband.png", "description": "Verein zur Förderung von Bitcoin-Bildung und -Adoption in Deutschland.", "region": "Deutschland" },
+            { "id": "parman", "name": "Parman", "link": "https://armantheparman.com/", "image": "assets/logos/parman.png", "description": "Guides, Beratung und Tools rund um Nodes, Sicherheit und Selbstverwahrung.", "region": "International" },
+            { "id": "aprycotmedia-bildung", "ref": "aprycotmedia" }
+          ]
+        },
+        {
+          "id": "medien",
+          "name": "Medien",
+          "link": "",
+          "children": [
+            { "id": "aprycotmedia", "name": "Aprycot Media", "link": "https://aprycot.media/", "image": "assets/logos/aprycotmedia.png", "description": "Bitcoin-Verlag mit deutschsprachigen Büchern. Hochwertige Titel für Einsteiger und Fortgeschrittene.", "region": "Deutschland" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dienstleistungen",
+      "name": "Dienstleistungen & Tools",
+      "link": "",
+      "children": [
+        {
+          "id": "versicherung",
+          "name": "Versicherung",
+          "link": "",
+          "children": [
+            { "id": "bitsurance", "name": "Bitsurance", "link": "https://www.bitsurance.eu/", "image": "assets/logos/bitsurance.png", "description": "Krypto-Versicherung. Schutzlösungen für Verwahrung und Unternehmensrisiken.", "region": "Europa" }
+          ]
+        },
+        {
+          "id": "sicherheit",
+          "name": "Sicherheit",
+          "link": "",
+          "children": [
+            { "id": "seedor", "name": "Seedor", "link": "https://seedor.io/", "image": "assets/logos/seedor.png", "description": "Seed-Backup und Security-Produkte für langfristige Aufbewahrung.", "region": "International" },
+            { "id": "exitkey", "name": "ExitKey", "link": "https://exitkey.at/", "image": "assets/logos/exitkey.png", "description": "Sicherheits-Tools und Backup-Lösungen für Bitcoiner.", "region": "International" }
+          ]
+        },
+        {
+          "id": "steuern",
+          "name": "Steuern",
+          "link": "",
+          "children": [
+            { "id": "cointracking", "name": "Cointracking", "link": "https://cointracking.info/", "image": "assets/logos/cointracking.png", "description": "Portfolio & Steuer. Importiert Transaktionen und erstellt Steuerberichte.", "region": "International" },
+            { "id": "blockpit", "name": "Blockpit", "link": "https://www.blockpit.io/", "image": "assets/logos/blockpit.png", "description": "Steuer-Reporting. DSGVO-konform, mit Schnittstellen zu vielen Börsen.", "region": "Europa" }
+          ]
+        },
+        {
+          "id": "kredite",
+          "name": "Kredite",
+          "link": "",
+          "children": [
+            { "id": "firefish", "name": "Firefish", "link": "https://firefish.io/", "image": "assets/logos/firefish.png", "description": "Bitcoin-gesicherte Kredite. Liquidity-on-Demand mit transparenten Konditionen.", "region": "International" }
+          ]
+        },
+        
+        {
+          "id": "energie",
+          "name": "Energie",
+          "link": "",
+          "children": [
+            { "id": "21energy", "name": "21energy", "link": "https://21energy.com/de", "image": "assets/logos/21energy.png", "description": "Bitcoin & Energie – Beratung und Projekte an der Schnittstelle.", "region": "Europa" },
+            { "id": "hashlynk", "name": "Hashlynk", "link": "https://www.hashlynk.at/", "image": "assets/logos/hashlynk.png", "description": "Mining-Infrastruktur und Services.", "region": "International" },
+            { "id": "terahash", "name": "Terahash", "link": "https://terahash.space/", "image": "assets/logos/terahash.png", "description": "Energie- und Mining-Lösungen.", "region": "International" }
+          ]
+        },
+        {
+          "id": "community-projekte",
+          "name": "Community-Projekte",
+          "link": "",
+          "children": [
+            { "id": "21pvcommunity", "name": "21pv Community", "link": "https://21pv.de/", "image": "assets/logos/21pvcommunity.png", "description": "Community-Projekt rund um Photovoltaik und Bitcoin.", "region": "Europa" }
+            
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lightning",
+      "name": "Lightning",
+      "link": "",
+      "children": [
+        {
+          "id": "lightning-wallets",
+          "name": "Wallets",
+          "link": "",
+          "children": [
+            { "id": "walletofsatoshi", "name": "Wallet of Satoshi", "link": "https://www.walletofsatoshi.com/", "image": "assets/logos/walletofsatoshi.png", "description": "Custodial Lightning Wallet. Sehr einfach zu nutzen, ideal für erste LN-Erfahrungen.", "region": "International" },
+            { "id": "breez", "name": "Breez", "link": "https://breez.technology/", "image": "assets/logos/breez.png", "description": "Non-custodial Lightning. Selbstverwahrung mit integriertem POS und Podcasting-Features.", "region": "International" },
+            { "id": "phoenix", "name": "Phoenix", "link": "https://phoenix.acinq.co/", "image": "assets/logos/phoenix.png", "description": "Non-custodial Lightning. On-the-fly Channels mit einfacher UX.", "region": "International" },
+            { "id": "bluewallet", "name": "BlueWallet", "link": "https://bluewallet.io/", "image": "assets/logos/bluewallet.png", "description": "Mobile mit Lightning. Unterstützt LNDHub und On-Chain/Lightning Trennung.", "region": "International" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "markt",
+      "name": "Mit Bitcoin zahlen",
+      "link": "",
+      "children": [
+        {
+          "id": "shops",
+          "name": "Shops",
+          "link": "",
+          "children": [
+            { "id": "shopinbit", "name": "ShopInBit", "link": "https://shopinbit.com/", "image": "assets/logos/shopinbit.png", "description": "Bitcoin E-Commerce. Große Produktauswahl und Concierge-Service.", "region": "Deutschland" },
+            { "id": "bitrefill", "name": "Bitrefill", "link": "https://www.bitrefill.com/", "image": "assets/logos/bitrefill.png", "description": "Gutscheine & Geschenkkarten. Weltweit nutzbar, bezahlt mit BTC und Lightning.", "region": "International" },
+            { "id": "copiaro", "name": "Copiaro", "link": "https://copiaro.de/", "image": "assets/logos/copiaro.png", "description": "Shops & Merch. Bitcoin-Merch und Zubehör.", "region": "Europa" },
+            { "id": "plebstyle", "name": "Pleb Style", "link": "https://plebstyle.com/", "image": "assets/logos/plebstyle.png", "description": "Shops & Merch. Kleidung und Accessoires für Bitcoiner.", "region": "International" },
+            { "id": "dezentralshopch", "name": "Dezentralshop CH", "link": "https://dezentralshop.ch/", "image": "assets/logos/dezentralshopch.png", "description": "Shops & Merch aus der Schweiz. Nodes, Zubehör und mehr.", "region": "Europa" },
+            { "id": "satoshistoreio", "name": "SatoshiStore.io", "link": "https://satoshistore.io/", "image": "assets/logos/satoshistore.jpg", "description": "Internationaler Bitcoin-Merch-Shop.", "region": "International" }
+          ]
+        },
+        {
+          "id": "hosting",
+          "name": "Hosting & Services",
+          "link": "",
+          "children": [
+            { "id": "njalla", "name": "Njalla", "link": "https://njal.la/", "image": "assets/logos/njalla.png", "description": "Privatsphäre-freundlicher Hoster. Domains und Hosting mit Fokus auf Schutz der Identität.", "region": "International" },
+            { "id": "tuta", "name": "TutaMail", "link": "https://tuta.com/de/support/payment#cryptocurrency", "image": "assets/logos/tuta.png", "description": "E-Mail Anbieter. Ende-zu-Ende-verschlüsselt und datenschutzfreundlich.", "region": "International" },
+            { "id": "nextdns", "name": "NextDNS", "link": "https://nextdns.io/de", "image": "assets/logos/nextdns.png", "description": "DNS Service. Tracking-Schutz, Filterlisten und Analytics für dein Netzwerk.", "region": "International" },
+            { "id": "proton", "name": "Proton", "link": "https://proton.me/", "image": "assets/logos/proton.png", "description": "Privacy-Dienste wie Mail, Drive und VPN mit starkem Datenschutz.", "region": "International" }
+          ]
+        },
+        {
+          "id": "payments-commerce",
+          "name": "Zahlungen & Commerce",
+          "link": "",
+          "children": [
+            { "id": "btcpayserver", "name": "BTC Pay Server", "link": "https://btcpayserver.org/", "image": "assets/logos/btcpayserver.png", "description": "Self-hosted Zahlungsprozessor. Volle Kontrolle über Bitcoin- und Lightning-Zahlungen.", "region": "International" },
+            { "id": "bitpay", "name": "bitpay", "link": "https://www.bitpay.com/", "image": "assets/logos/bitpay.png", "description": "Zahlungsdienstleister. Akzeptiere Bitcoin weltweit mit Händler-Tools.", "region": "International" },
+            { "id": "coincharge", "name": "Coincharge", "link": "https://coincharge.io/", "image": "assets/logos/coincharge.png", "description": "Wissen & Services für Bitcoin-Zahlungen im E-Commerce.", "region": "Europa" },
+            { "id": "opagopay", "name": "OpagoPay", "link": "https://www.opago.com/", "image": "assets/logos/opagopay.png", "description": "Zahlungslösungen auf Bitcoin/Lightning-Basis für Händler.", "region": "International" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "community",
+      "name": "Community",
+      "link": "",
+      "children": [
+        {
+          "id": "events-community",
+          "name": "Community",
+          "link": "",
+          "children": [
+            { "id": "einundzwanzig", "name": "Einundzwanzig", "link": "https://einundzwanzig.space/", "image": "assets/logos/einundzwanzig.png", "description": "Deutschsprachige Bitcoin-Community mit Meetups, Podcast und Projekten.", "region": "Europa" }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
