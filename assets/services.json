@@ -36,7 +36,8 @@
             { "id": "sparrow", "name": "Sparrow", "link": "https://sparrowwallet.com", "image": "assets/logos/sparrow.png", "description": "Desktop-Wallet für Power-User. Unterstützt Multisig, Hardware-Wallets und detaillierte Coin-Control.", "region": "International" },
             { "id": "wasabi", "name": "Wasabi", "link": "https://wasabiwallet.io", "image": "assets/logos/wasabi.png", "description": "Privacy-fokussierte Wallet. CoinJoin-Integration für mehr Anonymität beim Senden und Empfangen.", "region": "International" },
             { "id": "bluewallet", "name": "BlueWallet", "link": "https://bluewallet.io/", "image": "assets/logos/bluewallet.png", "description": "Mobile Wallet mit Lightning. Intuitiv und ideal für unterwegs.", "region": "International" },
-            { "id": "cakewallet", "name": "Cake Wallet", "link": "https://cakewallet.com/", "image": "assets/logos/cakewallet.png", "description": "Mobile Wallet. Einfache Bedienung, Multi-Asset-Support inkl. Bitcoin.", "region": "International" }
+            { "id": "cakewallet", "name": "Cake Wallet", "link": "https://cakewallet.com/", "image": "assets/logos/cakewallet.png", "description": "Mobile Wallet. Einfache Bedienung, Multi-Asset-Support inkl. Bitcoin.", "region": "International" },
+            { "id": "bitcoinsafe", "name": "Bitcoin Safe", "link": "https://bitcoin-safe.org/en/", "image": "assets/logos/bitcoinsafe.png", "description": "Sichere Bitcoin-Spar-Wallet für Desktop. BDK-basiert, Hardware-Signer erforderlich, moderne Visualisierungen und Multisig-Workflows mit Sync & Labeling.", "region": "International" }
           ]
         }
       ]
