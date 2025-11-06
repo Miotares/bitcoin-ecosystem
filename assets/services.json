@@ -253,7 +253,7 @@
             { "id": "breez", "name": "Breez", "link": "https://breez.technology/", "image": "assets/logos/breez.png", "description": "Non-custodial Lightning. Selbstverwahrung mit integriertem POS und Podcasting-Features.", "region": "International" },
             { "id": "phoenix", "name": "Phoenix", "link": "https://phoenix.acinq.co/", "image": "assets/logos/phoenix.png", "description": "Non-custodial Lightning. On-the-fly Channels mit einfacher UX.", "region": "International" },
             { "id": "bluewallet", "name": "BlueWallet", "link": "https://bluewallet.io/", "image": "assets/logos/bluewallet.png", "description": "Mobile mit Lightning. Unterstützt LNDHub und On-Chain/Lightning Trennung.", "region": "International" },
-            { "id": "aqua", "name": "AQUA", "link": "https://aquawallet.io/", "image": "assets/logos/aqua.png", "description": "Bitcoin/Lightning/Liquid Wallet mit USDt-Unterstützung und einfacher UX.", "region": "International" },
+            { "id": "aqua", "name": "AQUA", "link": "https://aquawallet.io/", "image": "assets/logos/aquawallet.png", "description": "Bitcoin/Lightning/Liquid Wallet mit USDt-Unterstützung und einfacher UX.", "region": "International" },
             { "id": "blink", "name": "Blink", "link": "https://www.blink.sv/", "image": "assets/logos/blink.png", "description": "Custodial Lightning Wallet mit Stablesats, POS und API.", "region": "International" }
           ]
         }
