@@ -312,7 +312,8 @@
   <script>
 // Dynamisches Laden der Services aus JSON und Rendering mit D3
 (async function() {
-  const response = await fetch('assets/services.json');
+  const appBust = Date.now();
+  const response = await fetch(`assets/services.json?v=${appBust}`);
   const data = await response.json();
 
   const svg = d3.select("#bitcoin-ecosystem");
