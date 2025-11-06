@@ -21,7 +21,9 @@
             { "id": "specterdiy", "name": "SpecterDIY", "link": "https://specter.solutions/hardware", "image": "assets/logos/specterdiy.png", "description": "DIY Hardware-Wallet. Flexibel, erweiterbar und ideal für Lernzwecke.", "region": "International" },
             { "id": "blockstream-jade", "name": "Blockstream Jade", "link": "https://blockstream.com/jade/", "image": "assets/logos/blockstream-jade.png", "description": "Offene Hardware-Wallet mit integriertem QR-Support und PSBT.", "region": "International" },
             { "id": "keystone", "name": "Keystone Wallet", "link": "https://keyst.one/", "image": "assets/logos/keystone.png", "description": "Air-gapped Hardware-Wallet mit QR-Workflow und Multisig-Fokus.", "region": "International" },
-            { "id": "foundation", "name": "Foundation Passport", "link": "https://foundation.xyz/passport", "image": "assets/logos/foundation.png", "description": "Bitcoin-first Hardware-Wallet (Passport) mit starkem Fokus auf Souveränität.", "region": "International" }
+                { "id": "foundation", "name": "Foundation Passport", "link": "https://foundation.xyz/passport", "image": "assets/logos/foundation.png", "description": "Bitcoin-first Hardware-Wallet (Passport) mit starkem Fokus auf Souveränität.", "region": "International" },
+                { "id": "onekey", "name": "OneKey", "link": "https://onekey.so/de/", "image": "assets/logos/onekey.png", "description": "Hardware-Wallet Familie mit Multi-Device Support und einfacher UX.", "region": "International" },
+                { "id": "erawallet", "name": "ERA Wallet", "link": "https://era-wallet.com/", "image": "assets/logos/erawallet.png", "description": "Neue Bitcoin-Only Hardware-Wallet mit Fokus auf Sicherheit und Usability.", "region": "International" }
           ]
         },
         {
@@ -167,7 +169,8 @@
           "name": "Medien",
           "link": "",
           "children": [
-            { "id": "aprycotmedia", "name": "Aprycot Media", "link": "https://aprycot.media/", "image": "assets/logos/aprycotmedia.png", "description": "Bitcoin-Verlag mit deutschsprachigen Büchern. Hochwertige Titel für Einsteiger und Fortgeschrittene.", "region": "Deutschland" }
+            { "id": "aprycotmedia", "name": "Aprycot Media", "link": "https://aprycot.media/", "image": "assets/logos/aprycotmedia.png", "description": "Bitcoin-Verlag mit deutschsprachigen Büchern. Hochwertige Titel für Einsteiger und Fortgeschrittene.", "region": "Deutschland" },
+            { "id": "konsensusnetwork", "name": "Konsensus Network", "link": "https://konsensusnetwork.com/", "image": "assets/logos/konsensusnetwork.png", "description": "Verlag & Publishing-Services für Bitcoin-Bücher in vielen Sprachen.", "region": "International" }
           ]
         }
       ]
@@ -186,12 +189,13 @@
           ]
         },
         {
-          "id": "sicherheit",
-          "name": "Sicherheit",
+          "id": "seed-backup",
+          "name": "Seed-Backup",
           "link": "",
           "children": [
             { "id": "seedor", "name": "Seedor", "link": "https://seedor.io/", "image": "assets/logos/seedor.png", "description": "Seed-Backup und Security-Produkte für langfristige Aufbewahrung.", "region": "International" },
-            { "id": "exitkey", "name": "ExitKey", "link": "https://exitkey.at/", "image": "assets/logos/exitkey.png", "description": "Sicherheits-Tools und Backup-Lösungen für Bitcoiner.", "region": "International" }
+            { "id": "exitkey", "name": "ExitKey", "link": "https://exitkey.at/", "image": "assets/logos/exitkey.png", "description": "Sicherheits-Tools und Backup-Lösungen für Bitcoiner.", "region": "International" },
+            { "id": "cryptosteel", "name": "Cryptosteel", "link": "https://cryptosteel.com/", "image": "assets/logos/cryptosteel.png", "description": "Seed-Backup aus Stahl für maximale Langlebigkeit.", "region": "International" }
           ]
         },
         {
@@ -208,7 +212,8 @@
           "name": "Kredite",
           "link": "",
           "children": [
-            { "id": "firefish", "name": "Firefish", "link": "https://firefish.io/", "image": "assets/logos/firefish.png", "description": "Bitcoin-gesicherte Kredite. Liquidity-on-Demand mit transparenten Konditionen.", "region": "International" }
+            { "id": "firefish", "name": "Firefish", "link": "https://firefish.io/", "image": "assets/logos/firefish.png", "description": "Bitcoin-gesicherte Kredite. Liquidity-on-Demand mit transparenten Konditionen.", "region": "International" },
+            { "id": "debifi", "name": "Debifi", "link": "https://debifi.com/", "image": "assets/logos/debifi.png", "description": "Bitcoin-besicherte Kredite für Privat & Unternehmen.", "region": "International" }
           ]
         },
         
@@ -266,7 +271,14 @@
             { "id": "copiaro", "name": "Copiaro", "link": "https://copiaro.de/", "image": "assets/logos/copiaro.png", "description": "Shops & Merch. Bitcoin-Merch und Zubehör.", "region": "Europa" },
             { "id": "plebstyle", "name": "Pleb Style", "link": "https://plebstyle.com/", "image": "assets/logos/plebstyle.png", "description": "Shops & Merch. Kleidung und Accessoires für Bitcoiner.", "region": "International" },
             { "id": "dezentralshopch", "name": "Dezentralshop CH", "link": "https://dezentralshop.ch/", "image": "assets/logos/dezentralshopch.png", "description": "Shops & Merch aus der Schweiz. Nodes, Zubehör und mehr.", "region": "Europa" },
-            { "id": "satoshistoreio", "name": "SatoshiStore.io", "link": "https://satoshistore.io/", "image": "assets/logos/satoshistore.jpg", "description": "Internationaler Bitcoin-Merch-Shop.", "region": "International" }
+            { "id": "satoshistoreio", "name": "SatoshiStore.io", "link": "https://satoshistore.io/", "image": "assets/logos/satoshistore.jpg", "description": "Internationaler Bitcoin-Merch-Shop.", "region": "International" },
+            { "id": "bitcoinbookshop", "name": "Bitcoinbook.shop", "link": "https://bitcoinbook.shop/", "image": "assets/logos/bitcoinbookshop.png", "description": "Bitcoin-Buchshop mit Titeln in vielen Sprachen.", "region": "International" }
+            ,
+            { "id": "solomining", "name": "Solomining.de", "link": "https://solomining.de/", "image": "assets/logos/solomining.png", "description": "Shop für Mining-Hardware, Upgrades und Zubehör.", "region": "Deutschland" },
+            { "id": "shortfiat", "name": "ShortFiat", "link": "https://shortfiat.de/", "image": "assets/logos/shortfiat.png", "description": "Bitcoin-Merch & Gadgets.", "region": "Europa" },
+            { "id": "hardwarewallets24", "name": "Hardwarewallets24", "link": "https://hardwarewallets24.de/", "image": "assets/logos/hardwarewallets24.png", "description": "Shop für Hardware-Wallets und Zubehör.", "region": "Deutschland" },
+            { "id": "gobrrr", "name": "goBRRR", "link": "https://www.gobrrr.me/", "image": "assets/logos/gobrrr.png", "description": "Bitcoin Merch & Tools.", "region": "International" },
+            { "id": "bitcoinshop", "name": "Bitcoin-Shop.net", "link": "https://bitcoin-shop.net/", "image": "assets/logos/bitcoinshop.png", "description": "Bitcoin Produkte & Merch.", "region": "Deutschland" }
           ]
         },
         {
