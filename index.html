@@ -320,6 +320,8 @@
   const height = window.innerHeight;
   const g = svg.append("g");
   const defs = svg.append("defs");
+  // Cache-Busting Query für Assets (verhindert alte Browser-Caches)
+  const cacheBust = Date.now();
 
   // Zusatzstyles
   const style = document.createElement('style');
@@ -391,10 +393,20 @@
 
   // Simulation
   const simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(d => d.id).distance(d => d.source.depth === 0 ? 280 : d.source.depth === 1 ? 180 : d.source.depth === 2 ? 140 : 120))
+    .force("link", d3.forceLink().id(d => d.id).distance(d => {
+      // Mehr Abstand für Shops-Kinder
+      if (d.source && d.source.id === 'shops') return 180;
+      return d.source.depth === 0 ? 280 : d.source.depth === 1 ? 180 : d.source.depth === 2 ? 140 : 120;
+    }))
     .force("charge", d3.forceManyBody().strength(d => d.depth === 0 ? -7000 : d.depth === 1 ? -4000 : d.depth === 2 ? -2000 : -1000))
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collide", d3.forceCollide(d => d.depth === 0 ? 150 : d.depth === 1 ? 120 : d.depth === 2 ? 90 : 60).strength(1))
+    .force("collide", d3.forceCollide(d => {
+      const isShopLeaf = d.depth === 3 && d.parent && d.parent.id === 'shops';
+      if (d.depth === 0) return 150;
+      if (d.depth === 1) return 120;
+      if (d.depth === 2) return 90;
+      return isShopLeaf ? 80 : 60; // etwas größerer Kollisionsradius für Shops-Leaves
+    }).strength(1))
     .force("x", d3.forceX(width / 2).strength(0.005))
     .force("y", d3.forceY(height / 2).strength(0.005))
     .alphaDecay(0.02);
@@ -485,9 +497,9 @@
     if (d.image) {
       const clipId = `clip-${d.id}`;
       if (d.depth === 0 || d.depth === 3) { const r = d.depth === 0 ? 50 : 30; defs.append("clipPath").attr("id", clipId).append("circle").attr("r", r);
-        s.append("image").attr("xlink:href", d.image).attr("x", -r).attr("y", -r).attr("width", r*2).attr("height", r*2).attr("clip-path", `url(#${clipId})`).on("error", function(){ d3.select(this).remove(); addNodeText(s, d); });
+        s.append("image").attr("xlink:href", `${d.image}?v=${cacheBust}`).attr("x", -r).attr("y", -r).attr("width", r*2).attr("height", r*2).attr("clip-path", `url(#${clipId})`).on("error", function(){ d3.select(this).remove(); addNodeText(s, d); });
       } else { defs.append("clipPath").attr("id", clipId).append("rect").attr("width", d.rectWidth).attr("height", d.rectHeight).attr("x", -d.rectWidth/2).attr("y", -d.rectHeight/2).attr("rx", 4).attr("ry", 4);
-        s.append("image").attr("xlink:href", d.image).attr("x", -d.rectWidth/2).attr("y", -d.rectHeight/2).attr("width", d.rectWidth).attr("height", d.rectHeight).attr("clip-path", `url(#${clipId})`).on("error", function(){ d3.select(this).remove(); addNodeText(s, d); });
+        s.append("image").attr("xlink:href", `${d.image}?v=${cacheBust}`).attr("x", -d.rectWidth/2).attr("y", -d.rectHeight/2).attr("width", d.rectWidth).attr("height", d.rectHeight).attr("clip-path", `url(#${clipId})`).on("error", function(){ d3.select(this).remove(); addNodeText(s, d); });
       }
     } else { addNodeText(s, d); }
     if (d.depth === 3) { s.append("text").attr("class", "node-label").attr("x", 0).attr("y", 42).attr("text-anchor", "middle").text(d.name); }
@@ -514,7 +526,7 @@
     const level1 = nodes.filter(n => n.depth === 1).sort((a,b)=>childCounts[b.id]-childCounts[a.id]);
     if (level1.length){ const quads = [[],[],[],[]]; level1.forEach((n,i)=>{ quads[i%4].push(n); }); quads.forEach((arr,qi)=>{ if (!arr.length) return; const a0 = qi*Math.PI/2; const a1 = (qi+1)*Math.PI/2; const step = (a1-a0)/(arr.length+1); arr.forEach((n,i)=>{ const a=a0+step*(i+1); const r=300; n.x=width/2+r*Math.cos(a); n.y=height/2+r*Math.sin(a); }); }); }
     nodes.filter(n=>n.depth===2).forEach(n=>{ if(!n.parent) return; const sib = nodes.filter(x=>x.depth===2 && x.parent && x.parent.id===n.parent.id); const dx=n.parent.x-width/2, dy=n.parent.y-height/2; const pa=Math.atan2(dy,dx); const arc=Math.PI*0.5; const step=arc/(sib.length+1); const start=pa-arc/2; const idx=sib.findIndex(s=>s.id===n.id); const a=start+step*(idx+1); const r=140; n.x=n.parent.x+r*Math.cos(a); n.y=n.parent.y+r*Math.sin(a); });
-    nodes.filter(n=>n.depth===3).forEach(n=>{ if(!n.parent) return; const sib = nodes.filter(x=>x.depth===3 && x.parent && x.parent.id===n.parent.id); const dx=n.parent.x-width/2, dy=n.parent.y-height/2; const pa=Math.atan2(dy,dx); const arc=Math.PI*0.3; const step=arc/(sib.length+1); const start=pa-arc/2; const idx=sib.findIndex(s=>s.id===n.id); const a=start+step*(idx+1); const r=100; n.x=n.parent.x+r*Math.cos(a); n.y=n.parent.y+r*Math.sin(a); }); }
+    nodes.filter(n=>n.depth===3).forEach(n=>{ if(!n.parent) return; const sib = nodes.filter(x=>x.depth===3 && x.parent && x.parent.id===n.parent.id); const dx=n.parent.x-width/2, dy=n.parent.y-height/2; const pa=Math.atan2(dy,dx); const isShops = n.parent.id === 'shops'; const arc=isShops? Math.PI*0.8 : Math.PI*0.3; const step=arc/(sib.length+1); const start=pa-arc/2; const idx=sib.findIndex(s=>s.id===n.id); const a=start+step*(idx+1); const r=isShops? 140 : 100; n.x=n.parent.x+r*Math.cos(a); n.y=n.parent.y+r*Math.sin(a); }); }
 
   function warmupSimulation(){ const rootNode = nodes.find(n => n.depth === 0); if (rootNode){ rootNode.fx = width/2; rootNode.fy = height/2; } optimizeNodeDistribution(); simulation.alpha(1); for(let i=0;i<100;i++){ simulation.tick(); } [0.5,0.3,0.1].forEach(a=>{ simulation.alpha(a); for(let i=0;i<50;i++){ simulation.tick(); } }); ticked(); }
   function addEntranceAnimations(){ link.style("opacity",0).transition().delay((d,i)=>300+i*5).duration(800).style("opacity",0.7); node.style("opacity",0).attr("transform", d=>`translate(${width/2},${height/2}) scale(0.1)`).transition().delay(d=>d.depth*200).duration(1000).style("opacity",1).attrTween("transform", function(d){ return t=>{ const x=width/2+(d.x-width/2)*t; const y=height/2+(d.y-height/2)*t; const s=0.1+t*0.9; return `translate(${x},${y}) scale(${s})`; }; }); }
