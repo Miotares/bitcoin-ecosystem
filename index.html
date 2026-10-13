@@ -291,7 +291,7 @@
       ${d.description ? `<p>${d.description}</p>` : ''}
       <div class="meta">${d.region ? `REGION: ${d.region}` : ''}</div>
       ${promoHtml}
-      <div class="actions">${d.link ? `<a class="btn" href="${d.link}" target="_blank" rel="noopener">${buttonText} <i class="ph ph-arrow-up-right"></i></a>` : ''}</div>
+      <div class="actions">${d.link ? `<a class="btn" href="${d.link}" target="_blank" rel="noopener" data-umami-event="service-click" data-umami-event-service="${d.name}" data-umami-event-affiliate="${d.isAffiliate ? 'yes' : 'no'}">${buttonText} <i class="ph ph-arrow-up-right"></i></a>` : ''}</div>
       ${affiliateDisclaimer}
     `;
       }
